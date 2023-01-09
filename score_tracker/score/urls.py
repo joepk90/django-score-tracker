@@ -5,8 +5,4 @@ from . views import ScoreViewSet
 router = DefaultRouter()
 router.register("", ScoreViewSet)
 
-# urlpatterns = [
-#     path('', ScoreViewSet),
-# ]
-
 urlpatterns = router.urls

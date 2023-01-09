@@ -10,15 +10,10 @@ class ScoreSerializer(serializers.ModelSerializer):
             "id",
             'number',
             'date'
-            # 'user', # TODO setup logic to attach user_id to score record
+            # 'user', # TODO request params or by user id?
         ]
 
 # TODO
-# phase 1 (mvp)
-# list all scores from all users, without showing the user id
-# prevent users submitting another score on the same day
-#  - no real way to prevent this, this should probobly be handled client side...
-
-
 # phase 2
+# allow option to attach user to a score record (by ID or by using the request auth token?)
 # list all scores by a certain user /scores/me OR scores/user_id ?
