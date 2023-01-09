@@ -2,6 +2,9 @@ from rest_framework.viewsets import GenericViewSet
 from . models import Score
 from . serializers import ScoreSerializer
 from rest_framework.throttling import ScopedRateThrottle
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import action
 from rest_framework.mixins import CreateModelMixin, \
     RetrieveModelMixin, \
     UpdateModelMixin \
@@ -25,3 +28,17 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
             self.throttle_classes = [ScopedRateThrottle]
 
         return super().get_throttles()
+
+    @action(detail=False, methods=["get"])
+    def today(self, request):
+        # scores = self.get_queryset().filter(date="Today")
+        scores = self.get_queryset()
+        serializer = self.get_serializer(scores, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=["get"])
+    def me(self, request):
+        # scores = self.get_queryset().filter(date="Today")
+        scores = self.get_queryset()
+        serializer = self.get_serializer(scores, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
