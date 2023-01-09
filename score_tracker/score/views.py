@@ -1,18 +1,14 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import GenericViewSet
 from . models import Score
 from . serializers import ScoreSerializer
 from rest_framework.throttling import ScopedRateThrottle
+from rest_framework.mixins import CreateModelMixin, \
+    RetrieveModelMixin, \
+    UpdateModelMixin \
 
 
-class ScoreViewSet(ModelViewSet):
 
-    # allowed HTTP methods
-    http_method_names = [
-        'get',
-        'post',
-        'patch',
-        # 'delete',
-    ]
+class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
 
     queryset = Score.objects.all()
     serializer_class = ScoreSerializer
