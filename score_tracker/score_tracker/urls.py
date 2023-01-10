@@ -24,7 +24,7 @@ from django.views.debug import default_urlconf
 urlpatterns = [
     path('', default_urlconf),
     path('admin/', admin.site.urls),
-    # path('auth/', include('accounts.urls')),  # djoser urls
+    path('auth/', include('accounts.urls')),  # djoser urls
     path('scores/', include('score.urls')),
 ]
 
