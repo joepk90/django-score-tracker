@@ -1,6 +1,6 @@
 from rest_framework.viewsets import GenericViewSet
 from . models import Score
-from . serializers import ScoreSerializer
+from . serializers import ScoreSerializer, ScoreUserCreateSerializer
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework import status
 from rest_framework.response import Response
@@ -28,6 +28,16 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
             self.throttle_classes = [ScopedRateThrottle]
 
         return super().get_throttles()
+
+    def get_serializer_class(self):
+
+        user = self.request.user
+        if user.is_authenticated and self.action == 'create':
+            return ScoreUserCreateSerializer
+
+        return ScoreSerializer
+
+    # custom endpoints
 
     @action(detail=False, methods=["get"])
     def today(self, request):
