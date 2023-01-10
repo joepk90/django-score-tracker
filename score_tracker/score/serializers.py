@@ -24,13 +24,15 @@ class ScoreUserCreateSerializer(serializers.ModelSerializer):
 
 class ScoreSerializer(serializers.ModelSerializer):
 
+    # user = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Score
         fields = [
             "id",
             'number',
-            'date'
-            # 'user', # TODO request params or by user id?
+            'date',
+            # 'user'
         ]
 
 # TODO
