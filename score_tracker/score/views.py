@@ -1,3 +1,4 @@
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 from . models import Score
 from . serializers import ScoreSerializer, ScoreUserCreateSerializer
@@ -36,6 +37,13 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
             return ScoreUserCreateSerializer
 
         return ScoreSerializer
+
+    def get_permissions(self):
+        if self.action in ('retrieve', 'update'):
+            # TODO create permision class for tempoaray auth (sessions? guest user?)
+            # anonymouse users currently can't retreive or update their days score
+            self.permission_classes = [IsAuthenticated]
+        return super(self.__class__, self).get_permissions()
 
     # custom endpoints
 
