@@ -87,6 +87,8 @@ class ScoreSerializer(serializers.ModelSerializer):
             "id",
             'number',
             'date',
+            # 'time',
+            # 'time_updated',
             # 'user'
         ]
 
