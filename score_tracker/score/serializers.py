@@ -10,7 +10,7 @@ class ScoreUserCreateSerializer(serializers.ModelSerializer):
             "id",
             'number',
             'date',
-            'user',
+            # 'user',
         ]
 
     def create(self, validated_data):
@@ -23,8 +23,6 @@ class ScoreUserCreateSerializer(serializers.ModelSerializer):
 
 
 class ScoreSerializer(serializers.ModelSerializer):
-
-    # user = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Score
