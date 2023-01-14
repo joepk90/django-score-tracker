@@ -25,7 +25,7 @@ urlpatterns = [
     path('', default_urlconf),
     path('admin/', admin.site.urls),
     path('auth/', include('accounts.urls')),  # djoser urls
-    path('scores/', include('score.urls')),
+    path('score/', include('score.urls')),
 ]
 
 # default djoser urls (add to interact with live db)
