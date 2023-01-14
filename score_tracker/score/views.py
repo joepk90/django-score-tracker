@@ -1,7 +1,7 @@
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.viewsets import GenericViewSet
 from . models import Score
-from . serializers import ScoreSerializer, ScoreUserCreateSerializer
+from . serializers import ScoreSerializer, ScoreUserCreateSerializer, ScoreGuestUserCreateSerializer
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework import status
 from rest_framework.response import Response
@@ -30,10 +30,11 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
     # return super().get_throttles()
 
     def get_serializer_class(self):
-
         user = self.request.user
-        if user.is_authenticated and self.action == 'create':
+        if user.is_authenticated == True and (self.action == 'create' or self.action == 'list'):
             return ScoreUserCreateSerializer
+        elif user.is_authenticated == False and (self.action == 'create' or self.action == 'list'):
+            return ScoreGuestUserCreateSerializer
 
         return ScoreSerializer
 
