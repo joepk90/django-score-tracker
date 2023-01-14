@@ -39,7 +39,7 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
         return ScoreSerializer
 
     def get_permissions(self):
-        if self.action in ('create'):
+        if self.action == 'create':
             self.permission_classes = [AllowAny]
         return super(self.__class__, self).get_permissions()
 
