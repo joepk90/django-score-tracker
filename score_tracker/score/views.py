@@ -1,4 +1,4 @@
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
 from . models import Score
 from . serializers import ScoreSerializer, ScoreUserCreateSerializer, ScoreGuestUserCreateSerializer
@@ -8,15 +8,15 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.mixins import CreateModelMixin, \
     RetrieveModelMixin, \
-    UpdateModelMixin \
-
+    UpdateModelMixin
+from accounts.permissions import IsAuthenticatedAndIsObjectOwner
 
 
 class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
 
     queryset = Score.objects.all()
     serializer_class = ScoreSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticatedAndIsObjectOwner]
 
     # throttling
     # https://medium.com/@nurettinabaci/drf-throttle-types-d885f0adebad
@@ -39,11 +39,7 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
         return ScoreSerializer
 
     def get_permissions(self):
-        if self.action in ('retrieve', 'update'):
-            # TODO create permision class for tempoaray auth (sessions? guest user?)
-            # anonymouse users currently can't retreive or update their days score
-            self.permission_classes = [IsAuthenticated]
-        elif self.action in ('create'):
+        if self.action in ('create'):
             self.permission_classes = [AllowAny]
         return super(self.__class__, self).get_permissions()
 
