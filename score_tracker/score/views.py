@@ -10,6 +10,8 @@ from rest_framework.mixins import CreateModelMixin, \
     RetrieveModelMixin, \
     UpdateModelMixin
 from accounts.permissions import IsAuthenticatedAndIsObjectOwner
+from rest_framework.exceptions import APIException
+from datetime import datetime
 
 
 class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
@@ -42,6 +44,20 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
         if self.action == 'create':
             self.permission_classes = [AllowAny]
         return super(self.__class__, self).get_permissions()
+
+    def perform_update(self, serializer):
+        id = self.kwargs.get('pk', None)
+        post = Score.objects.get(id=id)
+        today = datetime.utcnow().date()
+
+        if post.date < today:
+            message = 'Scores created on previous days cannot be updated.'
+            raise APIException(
+                detail=message,
+                code=status.HTTP_401_UNAUTHORIZED
+            )
+
+        serializer.save()
 
     # custom endpoints
 
