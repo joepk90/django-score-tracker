@@ -12,6 +12,7 @@ from rest_framework.mixins import CreateModelMixin, \
 from accounts.permissions import IsAuthenticatedAndIsObjectOwner
 from rest_framework.exceptions import APIException
 from datetime import datetime
+from score_tracker.exceptions import CustomAPIException
 
 
 class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
@@ -52,7 +53,7 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
 
         if post.date < today:
             message = 'Scores created on previous days cannot be updated.'
-            raise APIException(
+            raise CustomAPIException(
                 detail=message,
                 code=status.HTTP_401_UNAUTHORIZED
             )
