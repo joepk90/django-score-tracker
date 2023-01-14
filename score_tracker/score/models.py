@@ -9,8 +9,8 @@ class Score(models.Model):
         MaxValueValidator(10)
     ])
     # TODO update date time options?
-    date = models.DateField(auto_now=True)  # date should never change
-    time = models.TimeField(auto_now=True)
+    date = models.DateField(auto_now_add=True)  # date should never change
+    time = models.TimeField(auto_now_add=True)
     time_updated = models.TimeField(auto_now=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
