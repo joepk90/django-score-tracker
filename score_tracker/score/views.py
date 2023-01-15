@@ -2,7 +2,6 @@ from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import GenericViewSet
 from . models import Score
 from . serializers import ScoreSerializer, ScoreUserCreateSerializer, ScoreGuestUserCreateSerializer
-from rest_framework.throttling import ScopedRateThrottle
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -13,6 +12,7 @@ from accounts.permissions import IsAuthenticatedAndIsObjectOwner
 from rest_framework.exceptions import APIException
 from datetime import datetime
 from score_tracker.exceptions import CustomAPIException
+from score_tracker.throttles import DailyRateThrottle
 
 
 class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
@@ -26,11 +26,11 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
     # https://www.pedaldrivenprogramming.com/2017/05/throttling-django-rest-framwork-viewsets/
     # https://stackoverflow.com/questions/36039843/django-rest-post-and-get-different-throttle-scopes
 
-    # def get_throttles(self):
-    # if self.action == 'create':
-    # self.throttle_scope = 'scores.create'
-    # self.throttle_classes = [ScopedRateThrottle]
-    # return super().get_throttles()
+    def get_throttles(self):
+        if self.action == 'create':
+            # self.throttle_scope = 'scores.create'
+            self.throttle_classes = [DailyRateThrottle]
+        return super().get_throttles()
 
     def get_serializer_class(self):
         user = self.request.user
