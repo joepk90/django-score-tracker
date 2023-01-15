@@ -11,6 +11,7 @@ from . serializers import GuestUpdateSerializer
 User = get_user_model()
 
 
+# view set available for potential overrides
 class CustomDjsoserUserViewSet(UserViewSet):
     http_method_names = [
         'get',
