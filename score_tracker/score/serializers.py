@@ -72,11 +72,8 @@ class ScoreUserCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = self.context['request'].user
-        score = Score.objects.create(
-            user=user,
-            **validated_data
-        )
-        return score
+        validated_data["user"] = user
+        return super().create(validated_data)
 
 
 class ScoreSerializer(serializers.ModelSerializer):
