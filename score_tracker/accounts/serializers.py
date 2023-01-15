@@ -1,5 +1,9 @@
+from djoser.serializers import UsernameSerializer
 from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer, \
     UserSerializer as BaseUserSerializer
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class UserCreateSerializer(BaseUserCreateSerializer):
@@ -29,6 +33,17 @@ class UserSerializer(BaseUserSerializer):
 class UserAuthenticateSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         fields = [
+            'email',
+            'password',
+        ]
+
+
+class GuestUpdateSerializer(UsernameSerializer):
+    class Meta(UsernameSerializer.Meta):
+        pass
+        # model = User
+        fields = [
+            # 'id',
             'email',
             'password',
         ]

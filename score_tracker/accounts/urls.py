@@ -2,8 +2,10 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.urls import re_path
 from . views import CustomDjsoserUserViewSet
+from . views import GuestUserUpdateViewSet
 
 router = DefaultRouter()
+router.register("guest", GuestUserUpdateViewSet)
 router.register("users", CustomDjsoserUserViewSet)
 
 
