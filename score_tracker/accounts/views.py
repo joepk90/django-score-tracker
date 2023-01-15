@@ -1,12 +1,9 @@
-from django.core import exceptions as django_exceptions
 from django.contrib.auth import get_user_model
-from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.hashers import make_password
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework import serializers
 from djoser.views import UserViewSet
 from . permissions import IsGuest
 from . serializers import GuestUpdateSerializer
@@ -27,9 +24,8 @@ class CustomDjsoserUserViewSet(UserViewSet):
 
 class GuestUserUpdateViewSet(UserViewSet):
 
-    queryset = User.objects.all()
     serializer_class = GuestUpdateSerializer
-    # permission_classes = [AllowAny] # for debugging
+    # permission_classes = [AllowAny]  # for debugging
     permission_classes = [IsAuthenticated, IsGuest]
 
     http_method_names = [
@@ -47,19 +43,7 @@ class GuestUserUpdateViewSet(UserViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
-        # move password validation to serializer
-        try:
-            validate_password(serializer.data["password"], instance)
-        except django_exceptions.ValidationError as e:
-            raise serializers.ValidationError(
-                {"new_password": list(e.messages)})
-
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    def get_queryset(self):
-        user = self.request.user
-        self.queryset = User.objects.all().filter(id=user.id)
-        return super().get_queryset()
 
     def perform_update(self, serializer, *args, **kwargs):
 

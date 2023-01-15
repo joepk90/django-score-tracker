@@ -1,7 +1,10 @@
-from djoser.serializers import UsernameSerializer
+from djoser.serializers import UsernameSerializer, PasswordSerializer
 from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer, \
     UserSerializer as BaseUserSerializer
 from django.contrib.auth import get_user_model
+from django.core import exceptions as django_exceptions
+from django.contrib.auth.password_validation import validate_password
+from rest_framework import serializers
 
 User = get_user_model()
 
@@ -38,12 +41,36 @@ class UserAuthenticateSerializer(UserCreateSerializer):
         ]
 
 
+# CUSTOM GUEST USER
+
 class GuestUpdateSerializer(UsernameSerializer):
+
+    # TODO use nested validation
+    # password = PasswordSerializer(required=True)
+
     class Meta(UsernameSerializer.Meta):
-        pass
+
         # model = User
         fields = [
             # 'id',
             'email',
             'password',
         ]
+
+    # TODO use nested validation instead -> PasswordSerializer
+    # Djoser Serializer -> PasswordSerializer
+    # https://github.com/sunscrapers/djoser/blob/abdf622f95dfa2c6278c4bd6d50dfe69559d90c0/djoser/serializers.py#L211
+    def validate(self, attrs):
+        attrs = super().validate(attrs)
+        user = User(**attrs)
+        password = attrs.get("password")
+
+        try:
+            validate_password(password, user)
+        except django_exceptions.ValidationError as e:
+            serializer_error = serializers.as_serializer_error(e)
+            raise serializers.ValidationError(
+                {"password": serializer_error["non_field_errors"]}
+            )
+
+        return attrs
