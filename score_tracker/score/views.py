@@ -46,6 +46,19 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
             self.permission_classes = [AllowAny]
         return super(self.__class__, self).get_permissions()
 
+    def perform_create(self, serializer):
+        user = self.request.user
+        score = Score.objects.filter(user_id=user.id, date=datetime.today())
+
+        if score:
+            message = 'User can only create one score per day'
+            raise CustomAPIException(
+                detail=message,
+                code=status.HTTP_401_UNAUTHORIZED
+            )
+
+        serializer.save()
+
     def perform_update(self, serializer):
         id = self.kwargs.get('pk', None)
         post = Score.objects.get(id=id)
