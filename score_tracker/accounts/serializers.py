@@ -41,7 +41,9 @@ class UserAuthenticateSerializer(UserCreateSerializer):
         ]
 
 
-# CUSTOM GUEST USER
+# CUSTOM GUEST USER UPDATE SERIALIZER
+# use to update an accounts credentials (username, password) after creation
+# i think the validate code could be simplified by using nested serializer for the password field (PasswordSerializer)
 
 class GuestUpdateSerializer(UsernameSerializer):
 

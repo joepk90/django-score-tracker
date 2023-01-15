@@ -22,6 +22,11 @@ class CustomDjsoserUserViewSet(UserViewSet):
     ]
 
 
+# CUSTOM GUEST UPDATE USER VIEW SET
+# the guest user update view set allows users to set an email and password for a guest account
+# - athentication is required (access_token)
+# - the account must be a guest (is_guest)
+
 class GuestUserUpdateViewSet(UserViewSet):
 
     serializer_class = GuestUpdateSerializer
