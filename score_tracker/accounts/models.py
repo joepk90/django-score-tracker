@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from django.db import models
-
+import uuid
 # https://tech.serhatteker.com/post/2020-01/email-as-username-django/
 
 
@@ -10,6 +10,12 @@ class CustomUserManager(BaseUserManager):
     Custom user model manager where email is the unique identifiers
     for authentication instead of usernames.
     """
+
+    def create_guest_user(self, **extra_fields):
+        email = f"{uuid.uuid4().hex}"
+        user = self.model(email=email, **extra_fields)
+        user.save()
+        return user
 
     def create_user(self, email, password, **extra_fields):
         """
