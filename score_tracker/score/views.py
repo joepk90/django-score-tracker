@@ -57,7 +57,7 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
                 code=status.HTTP_401_UNAUTHORIZED
             )
 
-        serializer.save()
+        return super().perform_create(serializer)
 
     def perform_update(self, serializer):
         id = self.kwargs.get('pk', None)
@@ -71,7 +71,7 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
                 code=status.HTTP_401_UNAUTHORIZED
             )
 
-        serializer.save()
+        return super().perform_update(serializer)
 
     # custom endpoints
 
