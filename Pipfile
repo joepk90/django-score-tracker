@@ -13,6 +13,7 @@ django-cors-headers = "*"
 djangorestframework-simplejwt = "*"
 djoser = "*"
 whitenoise = "*"
+shortuuid = "*"
 
 [dev-packages]
 autopep8 = "*"
