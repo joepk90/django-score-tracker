@@ -1,9 +1,11 @@
 from django.conf import settings
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from shortuuid.django_fields import ShortUUIDField
 
 
 class Score(models.Model):
+    uuid = ShortUUIDField(length=32)
     number = models.PositiveSmallIntegerField(validators=[
         MinValueValidator(1),
         MaxValueValidator(10)
