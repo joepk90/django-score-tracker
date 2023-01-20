@@ -21,37 +21,23 @@ env = environ.Env()
 # read dev .env file (file must be included in the same directory as this settings.py file)
 env.read_env()
 
-if (os.environ.get("APPLICATION_SETTINGS") != None):
-    env.read_env(io.StringIO(
-        os.environ.get("APPLICATION_SETTINGS", None)))
-
-
-# default = development (unless the environment varaible is set)
-environment = 'development'
-if "ENVIRONMENT" in os.environ:
-    environment = env("ENVIRONMENT")
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
+ENVIRONMENT = os.environ.get("ENVIRONMENT", 'DEV')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = env("DEBUG")
-# if (environment == None):
-#     DEBUG = True
+DEBUG = os.environ.get("DEBUG")
 
-allowed_hosts_arr = ['*']
-# if (environment == 'production'):
-#     allowed_hosts_arr = [env("ALLOWED_HOSTS")]
-# else:
-#     allowed_hosts_arr = ['127.0.0.1']
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
+
+allowed_hosts_arr = ['127.0.0.1']
+if (ENVIRONMENT == 'PROD'):
+    allowed_hosts_arr = [env("ALLOWED_HOSTS")]
 
 ALLOWED_HOSTS = allowed_hosts_arr
 
@@ -108,7 +94,7 @@ WSGI_APPLICATION = 'score_tracker.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 database_settings = {}
-if (environment == 'production'):
+if (ENVIRONMENT == 'PROD'):
     database_settings = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': env("DATABASE_NAME"),
