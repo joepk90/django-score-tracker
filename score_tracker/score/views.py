@@ -1,4 +1,4 @@
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 from . models import Score
 from . serializers import ScoreSerializer, ScoreUserCreateSerializer, ScoreGuestUserCreateSerializer
@@ -75,11 +75,16 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
 
     # custom endpoints
 
-    @action(detail=False, methods=["get"])
+    # action not fully function
+    # - why does @action detail need to = False?
+    # - should try use default actions: retreive, update
+    #  - currenly cannot update
+    @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated, IsAuthenticatedAndIsObjectOwner])
     def today(self, request):
-        # scores = self.get_queryset().filter(date="Today")
-        scores = self.get_queryset()
-        serializer = self.get_serializer(scores, many=True)
+        user = self.request.user
+        date_today = datetime.utcnow().strftime('%Y-%m-%d')
+        score = self.get_queryset().get(user_id=user.id, date=date_today)
+        serializer = self.get_serializer(score, many=False)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=["get"])
