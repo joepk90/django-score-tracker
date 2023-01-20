@@ -13,6 +13,7 @@ from rest_framework.exceptions import APIException
 from datetime import datetime
 from score_tracker.exceptions import CustomAPIException
 from score_tracker.throttles import DailyRateThrottle
+from django.conf import settings
 
 
 class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
@@ -27,6 +28,10 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
     # https://stackoverflow.com/questions/36039843/django-rest-post-and-get-different-throttle-scopes
 
     def get_throttles(self):
+
+        if settings.DEBUG == True:
+            return super().get_throttles()
+
         if self.action == 'create':
             # self.throttle_scope = 'scores.create'
             self.throttle_classes = [DailyRateThrottle]
@@ -47,6 +52,10 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
         return super(self.__class__, self).get_permissions()
 
     def perform_create(self, serializer):
+
+        if settings.DEBUG == True:
+            return super().perform_create(serializer)
+
         user = self.request.user
         score = Score.objects.filter(user_id=user.id, date=datetime.today())
 
