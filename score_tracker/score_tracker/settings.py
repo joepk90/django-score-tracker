@@ -35,9 +35,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
-allowed_hosts_arr = ['127.0.0.1']
-if (ENVIRONMENT == 'PROD'):
-    allowed_hosts_arr = [env("ALLOWED_HOSTS")]
+allowed_hosts_arr = [env("ALLOWED_HOSTS")]
+if (ENVIRONMENT == 'DEV'):
+    allowed_hosts_arr = ['*']
 
 ALLOWED_HOSTS = allowed_hosts_arr
 
