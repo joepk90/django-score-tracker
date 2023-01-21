@@ -13,6 +13,7 @@ class CustomUserManager(BaseUserManager):
 
     def create_guest_user(self, **extra_fields):
         email = f"{uuid.uuid4().hex}"
+        extra_fields["is_guest"] = True
         user = self.model(email=email, **extra_fields)
         user.save()
         return user
