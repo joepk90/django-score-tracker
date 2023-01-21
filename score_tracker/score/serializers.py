@@ -15,7 +15,8 @@ class ScoreGuestUserCreateResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Score
         fields = [
-            "id",
+            # "id",
+            "uuid",
             'number',
             'date',
             "tokens",
@@ -38,6 +39,7 @@ class ScoreGuestUserCreateSerializer(serializers.ModelSerializer):
         model = Score
         fields = [
             # "id",
+            # "uuid",
             # 'date',
             'number',
             'user',
@@ -61,7 +63,8 @@ class ScoreUserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Score
         fields = [
-            "id",
+            # "id",
+            'uuid',
             'number',
             'date',
             # 'user',
@@ -78,7 +81,8 @@ class ScoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Score
         fields = [
-            "id",
+            # "id",
+            "uuid",
             'number',
             'date',
             # 'time',

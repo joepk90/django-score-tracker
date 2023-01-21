@@ -21,6 +21,9 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
     queryset = Score.objects.all()
     serializer_class = ScoreSerializer
     permission_classes = [IsAuthenticatedAndIsObjectOwner]
+    # could be worth disabling lookups with unique identifier completely?
+    # theres no reason for users to go back and check on previous scores...
+    lookup_field = "uuid"
 
     # throttling
     # https://medium.com/@nurettinabaci/drf-throttle-types-d885f0adebad
@@ -69,11 +72,9 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
         return super().perform_create(serializer)
 
     def perform_update(self, serializer):
-        id = self.kwargs.get('pk', None)
-        post = Score.objects.get(id=id)
+        score = self.get_object()
         today = datetime.utcnow().date()
-
-        if post.date < today:
+        if score.date < today:
             message = 'Scores created on previous days cannot be updated.'
             raise CustomAPIException(
                 detail=message,
