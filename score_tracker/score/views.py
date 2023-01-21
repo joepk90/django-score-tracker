@@ -49,6 +49,10 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
 
         return ScoreSerializer
 
+    # TODO could remove this guest score creation logic
+    # setup guest user creation endpoint?
+    # automatically sign users up as guest users?
+    #  this might cause lots of unintended guest accounts...?
     def get_permissions(self):
         if self.action == 'create':
             self.permission_classes = [AllowAny]
