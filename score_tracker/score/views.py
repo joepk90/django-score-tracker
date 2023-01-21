@@ -89,17 +89,22 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
 
     # custom endpoints
 
-    # action not fully function
-    # - why does @action detail need to = False?
-    # - should try use default actions: retreive, update
-    #  - currenly cannot update
-    @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated, IsAuthenticatedAndIsObjectOwner])
+    # TODO why does @action detail need to = False?
+
+    @action(detail=False, methods=["get", "put"], permission_classes=[IsAuthenticated, IsAuthenticatedAndIsObjectOwner])
     def today(self, request):
+
         user = self.request.user
         date_today = datetime.utcnow().strftime('%Y-%m-%d')
         score = self.get_queryset().get(user_id=user.id, date=date_today)
-        serializer = self.get_serializer(score, many=False)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+
+        if request.method == 'GET':
+            serializer = self.get_serializer(score, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif request.method == 'PUT':
+            self.lookup_field = 'id'
+            self.kwargs['id'] = score.id
+            return self.update(request)
 
     @action(detail=False, methods=["get"])
     def me(self, request):
