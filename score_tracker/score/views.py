@@ -47,7 +47,7 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
         elif user.is_authenticated == False and (self.action == 'create' or self.action == 'list'):
             return ScoreGuestUserCreateSerializer
 
-        return ScoreSerializer
+        return super().get_serializer_class()
 
     # TODO could remove this guest score creation logic
     # setup guest user creation endpoint?
