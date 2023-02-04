@@ -12,11 +12,14 @@
 ### ANON USER
 Happy Paths:
 - [x] should succeed if throttle limit not reached
+    - [x] response should return: auth tokens, number, uuid
 - [x] created score shold have user_id that matches the user id of the created user
-    - [ ] response should return: auth tokens, number, uuid
+
 
 Sad Paths:
-- [ ] Should fail if throttle limit is reached
+- [x] Should fail if throttle limit is reached
+- [x] should fail if number is invalid
+- [x] should fail if number is not provided
 
 ### GUEST/NORMAL USER
 Happy Paths:
