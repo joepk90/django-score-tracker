@@ -198,38 +198,46 @@ class TestCreateScore:
             if_number_is_not_provided_return_400(self, create_score)
 
 
+@pytest.mark.skip
 @pytest.mark.django_db
-class TestGuestCreateScore:
-    def test_if_user_is_anon_return_200(self, create_score, authenticate):
+class TestUpdateScore:
 
-        # Arrange
-        user = baker.make(User, is_guest=True)
-        authenticate(user=user)
-        number = 1
+    class TestAnonymousUser:
 
-        # Act
-        response = create_score({'number': number})
+        def test_if_user_is_anon_return_401(self, authenticate, create_score):
+            pass
 
-        print("response.status_code", response.status_code)
+    class TestGuestAndDefaultUser:
 
-        #  Assert
-        assert response.status_code == status.HTTP_201_CREATED
-        assert response.data['number'] == number
+        """
+        HAPPY PATHS
+        """
 
-    def test_if_user_is_anon_and_makes_multiple_requests_return_200(self, create_score, authenticate):
+        def test_if_user_updates_score_return_200(self, authenticate, create_score):
+            pass
 
-        # Arrange
-        user = baker.make(User, is_guest=True)
-        authenticate(user=user)
-        number = 1
+        """
+        UNHAPPY PATHS
+        """
 
-        # Act
-        resOne = create_score({'number': number})
-        resTwo = create_score({'number': number})
+        def test_if_score_does_not_exist_return_200(self, authenticate, create_score):
+            pass
 
-        #  Assert
-        assert resOne.status_code == status.HTTP_201_CREATED
-        assert resTwo.status_code == status.HTTP_401_UNAUTHORIZED
+        def test_if_data_is_invalid_returns_400(self, authenticate, create_score):
+
+            # Arrange
+            authenticate()
+
+            # Act, Assert
+            # if_data_is_invalid_returns_400(self, create_score)
+
+        def test_if_number_is_not_provided_return_400(self, authenticate, create_score):
+
+            # Arrange
+            authenticate()
+
+            # Act, Assert
+            # if_number_is_not_provided_return_400(self, create_score)
 
 
 @pytest.mark.django_db

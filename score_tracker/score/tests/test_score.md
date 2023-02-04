@@ -43,7 +43,7 @@ Sad Paths:
 ### GUEST/NORMAL USER
 
 Happy Paths:
-- [ ] Shoud succced if exists
+- [ ] Should succced if exists
     - [ ] should be possible to update: time, number
     - [ ] response should return: number, uuid, date, time
 
