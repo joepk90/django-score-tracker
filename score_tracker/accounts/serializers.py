@@ -45,13 +45,6 @@ class UserAuthenticateSerializer(UserCreateSerializer):
 # use to update an accounts credentials (username, password) after creation
 # i think the validate code could be simplified by using nested serializer for the password field (PasswordSerializer)
 
-
-# no fields are required as email is generated - might be checking if the email is unique
-class GuestUserCreateSerializer(UserCreateSerializer):
-    class Meta:
-        fields = []
-
-
 class GuestUpdateSerializer(UsernameSerializer):
 
     # TODO use nested validation

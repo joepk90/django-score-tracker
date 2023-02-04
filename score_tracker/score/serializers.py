@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from . models import Score
-from accounts.serializers import UserSerializer, GuestUserCreateSerializer
 from django.contrib.auth import get_user_model
 from django.db import transaction
 
@@ -33,8 +32,6 @@ class ScoreGuestUserCreateResponseSerializer(serializers.ModelSerializer):
 
 class ScoreGuestUserCreateSerializer(serializers.ModelSerializer):
 
-    user = GuestUserCreateSerializer(read_only=True)
-
     class Meta:
         model = Score
         fields = [
@@ -42,13 +39,13 @@ class ScoreGuestUserCreateSerializer(serializers.ModelSerializer):
             # "uuid",
             # 'date',
             'number',
-            'user',
+            # 'user_id',
         ]
 
     def create(self, validated_data):
         with transaction.atomic():
             user = User.objects.create_guest_user()
-            validated_data["user"] = user
+            validated_data["user_id"] = user.id
             return super().create(validated_data)
 
     # TODO seperation of concerns - perhaps make seperate request to authenticate as guest user...?
@@ -67,12 +64,12 @@ class ScoreUserCreateSerializer(serializers.ModelSerializer):
             'uuid',
             'number',
             'date',
-            # 'user',
+            # 'user_id',
         ]
 
     def create(self, validated_data):
         user = self.context['request'].user
-        validated_data["user"] = user
+        validated_data["user_id"] = user.id
         return super().create(validated_data)
 
 
@@ -87,7 +84,7 @@ class ScoreSerializer(serializers.ModelSerializer):
             'date',
             # 'time',
             # 'time_updated',
-            # 'user'
+            # 'user_id'
         ]
 
 # TODO
