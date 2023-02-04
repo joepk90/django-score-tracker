@@ -142,9 +142,6 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-# https://docs.djangoproject.com/en/dev/releases/4.0/#deprecated-features-4-0
-USE_L10N = True  #  depreciated setting
-
 USE_TZ = True
 
 
