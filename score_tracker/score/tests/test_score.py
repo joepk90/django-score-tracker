@@ -38,15 +38,23 @@ def if_data_is_invalid_returns_400(self, create_score):
     assert response.data['number'] is not None
 
 
+def if_number_is_not_provided_return_400(self, create_score):
+    # Act
+    response = create_score({})
+
+    #  Assert
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+
 @pytest.mark.django_db
 class TestCreateScore:
 
-    # should fail if number is invalid
-    # should fail if user has already created a score
-
     class TestAnonymousUser:
 
-        # happy paths
+        """
+        HAPPY PATHS
+        """
+
         def test_if_throttle_limit_not_reached_return_200(self, create_score, authenticate):
 
             # Arrange
@@ -63,7 +71,7 @@ class TestCreateScore:
             assert response.data['date'] is not None
             assert response.data['tokens'] is not None
 
-        def test_if_score_has_correct_user_relationship(self, create_score):
+        def test_if_score_has_correct_relationship_to_user_object(self, create_score):
 
             # Arrange
             cache.clear()
@@ -80,7 +88,10 @@ class TestCreateScore:
             assert response.data['number'] == score.number
             assert response.data['uuid'] == score.uuid
 
-        # unhappy paths
+        """
+        UNHAPPY PATHS
+        """
+
         def test_if_throttle_limit_reached_return_429(self, create_score):
 
             # Arrange
@@ -99,26 +110,23 @@ class TestCreateScore:
 
             # Arrange
             cache.clear()
-            number = -1
 
-            # # Act
-            response = create_score({'number': number})
+            # Act, Assert
+            if_number_is_not_provided_return_400(self, create_score)
 
-            #  Assert
-            assert response.status_code == status.HTTP_400_BAD_REQUEST
-
-        def test_if_score_number_is_provided_return_400(self, create_score):
+        def test_if_number_is_not_provided_return_400(self, create_score):
 
             # Arrange
             cache.clear()
 
-            # # Act
-            response = create_score({})
-
-            #  Assert
-            assert response.status_code == status.HTTP_400_BAD_REQUEST
+            # Act, Assert
+            if_number_is_not_provided_return_400(self, create_score)
 
     class TestGuestAndDefaultUser:
+
+        """
+        HAPPY PATHS
+        """
 
         def test_if_user_is_authenticated_return_200(self, authenticate, create_score):
 
@@ -135,6 +143,44 @@ class TestCreateScore:
             assert response.data['uuid'] is not None
             assert response.data['date'] is not None
 
+        def test_if_score_has_correct_relationship_to_user_object(self, authenticate, create_score):
+
+            # Arrange
+            user = baker.make(User)
+            authenticate(user=user)
+            number = 1
+
+            # Act
+            response = create_score({'number': number})
+            score = Score.objects.get(
+                user_id=user.id, date=datetime.today())
+
+            #  Assert
+            assert response.status_code == status.HTTP_201_CREATED
+            assert response.data['number'] == score.number
+            assert response.data['uuid'] == score.uuid
+            assert response.data['date'] == score.date.strftime(
+                SCORE_DATE_FIELD_FORMAT)
+            assert user.id == score.user_id
+
+        """
+        UNHAPPY PATHS
+        """
+
+        def test_if_score_has_already_been_created_should_return_401(self, authenticate, create_score):
+
+            # Arrange
+            authenticate()
+            number = 1
+
+            # Act
+            resOne = create_score({'number': number})
+            resTwo = create_score({'number': number})
+
+            #  Assert
+            assert resOne.status_code == status.HTTP_201_CREATED
+            assert resTwo.status_code == status.HTTP_401_UNAUTHORIZED
+
         def test_if_data_is_invalid_returns_400(self, authenticate, create_score):
 
             # Arrange
@@ -143,19 +189,13 @@ class TestCreateScore:
             # Act, Assert
             if_data_is_invalid_returns_400(self, create_score)
 
-        def test_if_data_is_valid_returns_201(self, api_client):
+        def test_if_number_is_not_provided_return_400(self, authenticate, create_score):
 
             # Arrange
-            api_client.force_authenticate(user=User())
+            authenticate()
 
-            # Act
-            response = api_client.post('/score/', {
-                'number': 1
-            })
-
-            #  Assert
-            assert response.status_code == status.HTTP_201_CREATED
-            assert response.data['number'] == 1
+            # Act, Assert
+            if_number_is_not_provided_return_400(self, create_score)
 
 
 @pytest.mark.django_db

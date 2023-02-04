@@ -23,13 +23,15 @@ Sad Paths:
 
 ### GUEST/NORMAL USER
 Happy Paths:
-- [ ] Should succeed if no score has been created today
-- [ ] created score should have user_id that matches the user id of the authenticated user
-    - [ ] response should return: number, uuid, date/times
+- [x] should be able to create score if user is authenticated
+    - [x] response should return: number, uuid, date/times
+- [x] created score should have user_id that matches the user id of the authenticated user
+
 
 Sad Paths:
-- [ ] should fail if a score has already been created today
-- [ ] should fail if number is invalid
+- [x] should fail if a score has already been created today
+- [x] should fail if number is invalid
+- [x] should fail if number is not provided
 
 
 
