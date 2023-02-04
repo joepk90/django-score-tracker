@@ -63,6 +63,12 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
         if settings.DEBUG == True:
             return super().perform_create(serializer)
 
+        # TODO potentially review this logic
+        # - this assumes the request is made by an anonymous user before the throttle limit has been reached
+        # - can a seperation of concerns be applied here?
+        if self.request.user.is_anonymous:
+            return super().perform_create(serializer)
+
         user = self.request.user
         score = Score.objects.filter(user_id=user.id, date=datetime.today())
 
