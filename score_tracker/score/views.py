@@ -1,6 +1,6 @@
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
-from . models import Score
+from . models import Score, SCORE_DATE_FIELD_FORMAT
 from . serializers import ScoreSerializer, ScoreUserCreateSerializer, ScoreGuestUserCreateSerializer
 from rest_framework import status
 from rest_framework.response import Response
@@ -95,7 +95,7 @@ class ScoreViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Gener
     def today(self, request):
 
         user = self.request.user
-        date_today = datetime.utcnow().strftime('%Y-%m-%d')
+        date_today = datetime.utcnow().strftime(SCORE_DATE_FIELD_FORMAT)
         score = self.get_queryset().get(user_id=user.id, date=date_today)
 
         if request.method == 'GET':

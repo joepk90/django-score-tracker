@@ -3,6 +3,9 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from shortuuid.django_fields import ShortUUIDField
 
+# TODO get dynamically from django defaults...
+SCORE_DATE_FIELD_FORMAT = '%Y-%m-%d'
+
 
 class Score(models.Model):
     uuid = ShortUUIDField(length=32)
