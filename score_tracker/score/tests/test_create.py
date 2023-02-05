@@ -43,7 +43,7 @@ class TestCreateScore:
         HAPPY PATHS
         """
 
-        @pytest.mark.skip
+        # @pytest.mark.skip
         # def test_date_and_time_fields_are_set(self, create_score, authenticate):
         # check if the following fields are set correctly
         # - date
