@@ -81,4 +81,9 @@ Unhappy Paths:
 - [x] should fail if user tries to retrieve score not owned by anyone (None)
 
 ## SCORE DELETE
-- [ ] should always fail
+
+### ANON USER
+- [x] should fail if user attempts to delete score
+
+### GUEST/NORMAL USER
+- [x] should fail if user attempts to delete score created by them
