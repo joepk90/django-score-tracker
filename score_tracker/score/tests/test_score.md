@@ -53,8 +53,13 @@ Happy Paths:
 - [x] updating a score should update the time_updated property
 
 Unhappy Paths:
-- [ ] should fail if it doesn't exist
-- [ ] should fail if no uuid is passed or is invalid
+- [x] should fail if score doesn't exist
+- [x] should fail if uuid is invalid
+- [x] should fail if number is invalid
+- [x] should fail if no number is provied
+- [x] should fail user tries to update score not owned by them
+- [x] should fail to update scores created on previous days
+
 
 
 
