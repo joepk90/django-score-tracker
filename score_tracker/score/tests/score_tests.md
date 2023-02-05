@@ -75,8 +75,10 @@ Happy Paths:
     - [x] response should return: number, uuid, date
 
 Unhappy Paths:
-- [ ] should fail if it doesn't exist
-- [ ] should fail if no uuid is passed or is invalid
+- [x] should fail if it doesn't exist
+- [x] should fail if uuid is invalid
+- [x] should fail if user tries to retrieve score not owned by them
+- [x] should fail if user tries to retrieve score not owned by anyone (None)
 
 ## SCORE DELETE
 - [ ] should always fail
