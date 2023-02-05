@@ -66,13 +66,13 @@ Unhappy Paths:
 ## SCORE GET
 
 ### ANON USER
-- [ ] Should always fail
+- [x] Should always fail
 
 ### GUEST/NORMAL USER
 
 Happy Paths:
-- [ ] Shoud succced if exists
-    - [ ] response should return: number, uuid, date/times
+- [x] Shoud succced if exists
+    - [x] response should return: number, uuid, date
 
 Unhappy Paths:
 - [ ] should fail if it doesn't exist
