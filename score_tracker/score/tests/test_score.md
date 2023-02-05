@@ -17,7 +17,7 @@ Happy Paths:
 - [ ] test_date_and_time_fields_are_set
 
 
-Sad Paths:
+Unhappy Paths:
 - [x] Should fail if throttle limit is reached
 - [x] should fail if number is invalid
 - [x] should fail if number is not provided
@@ -30,7 +30,7 @@ Happy Paths:
 - [ ] test_date_and_time_fields_are_set
 
 
-Sad Paths:
+Unhappy Paths:
 - [x] should fail if a score has already been created today
 - [x] should fail if number is invalid
 - [x] should fail if number is not provided
@@ -53,7 +53,7 @@ Happy Paths:
     - [ ] should be possible to update: time, number
     - [ ] response should return: number, uuid, date, time
 
-Sad Paths:
+Unhappy Paths:
 - [ ] should fail if it doesn't exist
 - [ ] should fail if no uuid is passed or is invalid
 
@@ -70,7 +70,7 @@ Happy Paths:
 - [ ] Shoud succced if exists
     - [ ] response should return: number, uuid, date/times
 
-Sad Paths:
+Unhappy Paths:
 - [ ] should fail if it doesn't exist
 - [ ] should fail if no uuid is passed or is invalid
 
