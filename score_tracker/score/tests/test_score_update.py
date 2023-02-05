@@ -11,9 +11,9 @@ User = get_user_model()
 
 @pytest.fixture
 def update_score(api_client):
-    def update_score(uuid, data):
+    def do_update_score(uuid, data):
         return api_client.put(f'/score/{uuid}/', data)
-    return update_score
+    return do_update_score
 
 
 @pytest.mark.django_db
