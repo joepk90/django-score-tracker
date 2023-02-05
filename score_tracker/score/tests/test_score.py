@@ -6,7 +6,7 @@ import pytest
 from score.models import Score, SCORE_DATE_FIELD_FORMAT
 from django.core.cache import cache
 from datetime import datetime
-
+import uuid
 
 # baker will dynamically create objects (including model relationships)
 
@@ -26,6 +26,13 @@ User = get_user_model()
 def create_score(api_client):
     def do_create_score(score):
         return api_client.post('/score/', score)
+    return do_create_score
+
+
+@pytest.fixture
+def update_score(api_client):
+    def do_create_score(uuid, number=1):
+        return api_client.put(f'/score/{uuid}/', {'number': number})
     return do_create_score
 
 
@@ -205,15 +212,61 @@ class TestCreateScore:
             if_number_is_not_provided_return_400(self, create_score)
 
 
-@pytest.mark.skip
 @pytest.mark.django_db
 class TestUpdateScore:
 
     class TestAnonymousUser:
 
-        def test_if_user_is_anon_return_401(self, authenticate, create_score):
-            pass
+        """
+        UNHAPPY PATHS
+        """
 
+        def test_if_uuid_is_invalid_return_401(self, authenticate, update_score):
+
+            #  arrange
+            scoreUUID = uuid.uuid4()
+
+            # act
+            response = update_score(scoreUUID)
+
+            # assert
+            assert response.status_code == status.HTTP_404_NOT_FOUND
+
+        def test_if_uuid_is_invalid_return_401(self, authenticate, update_score):
+
+            #  arrange
+            scoreUUID = ""
+
+            # act
+            response = update_score(scoreUUID)
+
+            # assert
+            assert response.status_code == status.HTTP_404_NOT_FOUND
+
+        def test_if_user_is_anon_return_401(self, authenticate, update_score):
+
+            #  arrange
+            user = baker.make(User)
+            score = baker.make(Score, user_id=user.id)
+
+            # act
+            response = update_score(score.uuid)
+
+            # assert
+            assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+        def test_if_user_can_update_unnassigned_score_return_401(self, authenticate, update_score):
+
+            #  arrange
+            score = baker.make(Score)
+
+            # act
+            response = update_score(score.uuid)
+
+            # assert
+            assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    @pytest.mark.skip
     class TestGuestAndDefaultUser:
 
         """

@@ -40,7 +40,11 @@ Sad Paths:
 ## SCORE UPDATE
 
 ### ANON USER
-- [ ] Should always fail
+Unhappy Paths:
+- [x] should fail if number is invalid
+- [x] should fail if number is not provided
+- [x] should fail user is anonymous
+- [x] should fail user tried to update score not created by them
 
 ### GUEST/NORMAL USER
 
