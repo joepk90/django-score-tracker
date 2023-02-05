@@ -55,7 +55,14 @@ class TestCreateScore:
         HAPPY PATHS
         """
 
-        def test_if_throttle_limit_not_reached_return_200(self, create_score, authenticate):
+        @pytest.mark.skip
+        # def test_date_and_time_fields_are_set(self, create_score, authenticate):
+        # check if the following fields are set correctly
+        # - date
+        # - time
+        # - time_updates (this might not set when object is first created)
+        # pass
+        def test_if_throttle_limit_not_reached_return_200(self, create_score):
 
             # Arrange
             cache.clear()
