@@ -24,9 +24,9 @@ User = get_user_model()
 
 @pytest.fixture
 def update_score(api_client):
-    def do_create_score(uuid, number=1):
-        return api_client.put(f'/score/{uuid}/', {'number': number})
-    return do_create_score
+    def update_score(uuid, data):
+        return api_client.put(f'/score/{uuid}/', data)
+    return update_score
 
 
 @pytest.mark.django_db
@@ -36,9 +36,10 @@ class TestUpdateScore:
 
         #  arrange
         scoreUUID = uuid.uuid4()
+        number = 1
 
         # act
-        response = update_score(scoreUUID)
+        response = update_score(scoreUUID, {"number": number})
 
         # assert
         assert response.status_code == status.HTTP_404_NOT_FOUND
@@ -47,9 +48,10 @@ class TestUpdateScore:
 
         #  arrange
         scoreUUID = ""
+        number = 1
 
         # act
-        response = update_score(scoreUUID)
+        response = update_score(scoreUUID, {"number": number})
 
         # assert
         assert response.status_code == status.HTTP_404_NOT_FOUND
@@ -59,9 +61,10 @@ class TestUpdateScore:
         #  arrange
         user = baker.make(User)
         score = baker.make(Score, user_id=user.id)
+        number = 1
 
         # act
-        response = update_score(score.uuid)
+        response = update_score(score.uuid, {"number": number})
 
         # assert
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -70,12 +73,44 @@ class TestUpdateScore:
 
         #  arrange
         score = baker.make(Score)
+        number = 1
 
         # act
-        response = update_score(score.uuid)
+        response = update_score(score.uuid, {"number": number})
 
         # assert
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def if_data_is_invalid_returns_400(self, update_score, user=None):
+
+        # Arrange
+        if user == None:
+            user = baker.make(User)
+
+        user_id = user.id
+        score = baker.make(Score, user_id=user_id)
+        number = -1
+
+        # Act
+        response = update_score(score.uuid, {"number": number})
+
+        #  Assert
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def if_number_is_not_provided_return_400(self, update_score, user=None):
+
+        # Arrange
+        if user == None:
+            user = baker.make(User)
+
+        user_id = user.id
+        score = baker.make(Score, user_id=user_id)
+
+        # Act
+        response = update_score(score.uuid, {})
+
+        #  Assert
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     class TestAnonymousUser:
 
@@ -111,7 +146,7 @@ class TestUpdateScore:
             score = baker.make(Score, user_id=user.id, number=1)
 
             # act
-            response = update_score(score.uuid, number)
+            response = update_score(score.uuid, {"number": number})
 
             # assert
             assert response.status_code == status.HTTP_200_OK
@@ -125,7 +160,7 @@ class TestUpdateScore:
             score = baker.make(Score, user_id=user.id, number=1)
 
             # act
-            update_score(score.uuid, number)
+            update_score(score.uuid, {"number": number})
 
             # assert
             scoreUpdate = Score.objects.get(
@@ -135,27 +170,51 @@ class TestUpdateScore:
         """
         UNHAPPY PATHS
         """
+
+        def test_if_score_does_not_exist_return_200(self, authenticate, update_score):
+
+            # Arrange
+            authenticate()
+
+            # Act, Assert
+            TestUpdateScore.if_uuid_is_invalid_return_401(self, update_score)
+
+        def if_score_exists_but_data_is_invalid_returns_400(self, authenticate, update_score):
+
+            # Arrange
+            user = baker.make(User)
+            authenticate(user=user)
+
+            # Act, Assert
+            TestUpdateScore.if_data_is_invalid_returns_400(
+                self, update_score)
+
+        def test_score_exists_but_number_is_not_provided_return_400(self, authenticate, update_score):
+
+            # Arrange
+            user = baker.make(User)
+            authenticate(user=user)
+
+            # Act, Assert
+            TestUpdateScore.if_number_is_not_provided_return_400(
+                self, update_score, user)
+
         @pytest.mark.skip
-        def test_if_score_does_not_exist_return_200(self, authenticate, create_score):
+        def test_if_uuid_is_invalid_return_401(self, update_score):
+            TestUpdateScore.if_uuid_is_invalid_return_401(self, update_score)
+
+        @pytest.mark.skip
+        def test_if_uuid_is_exists_return_401(self, update_score):
+            TestUpdateScore.if_uuid_is_exists_return_401(self, update_score)
+
+        @pytest.mark.skip
+        def test_if_user_can_update_unnassigned_score_return_401(self, update_score):
+            TestUpdateScore.if_user_can_update_unnassigned_score_return_401(
+                self, update_score)
+
+        @pytest.mark.skip
+        def test_if_user_can_update_score_created_before_today_return_401(self, update_score):
             pass
-
-        @pytest.mark.skip
-        def test_if_data_is_invalid_returns_400(self, authenticate, create_score):
-
-            # Arrange
-            authenticate()
-
-            # Act, Assert
-            # if_data_is_invalid_returns_400(self, create_score)
-
-        @pytest.mark.skip
-        def test_if_number_is_not_provided_return_400(self, authenticate, create_score):
-
-            # Arrange
-            authenticate()
-
-            # Act, Assert
-            # if_number_is_not_provided_return_400(self, create_score)
 
 
 @pytest.mark.django_db
