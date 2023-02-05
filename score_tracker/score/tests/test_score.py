@@ -36,25 +36,25 @@ def update_score(api_client):
     return do_create_score
 
 
-def if_data_is_invalid_returns_400(self, create_score):
-    # Act
-    response = create_score({'number': -1})
-
-    #  Assert
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.data['number'] is not None
-
-
-def if_number_is_not_provided_return_400(self, create_score):
-    # Act
-    response = create_score({})
-
-    #  Assert
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
-
-
 @pytest.mark.django_db
 class TestCreateScore:
+
+    def if_data_is_invalid_returns_400(self, create_score):
+
+        # Act
+        response = create_score({'number': -1})
+
+        #  Assert
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert response.data['number'] is not None
+
+    def if_number_is_not_provided_return_400(self, create_score):
+
+        # Act
+        response = create_score({})
+
+        #  Assert
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     class TestAnonymousUser:
 
@@ -126,7 +126,8 @@ class TestCreateScore:
             cache.clear()
 
             # Act, Assert
-            if_number_is_not_provided_return_400(self, create_score)
+            TestCreateScore.if_number_is_not_provided_return_400(
+                self, create_score)
 
         def test_if_number_is_not_provided_return_400(self, create_score):
 
@@ -134,7 +135,8 @@ class TestCreateScore:
             cache.clear()
 
             # Act, Assert
-            if_number_is_not_provided_return_400(self, create_score)
+            TestCreateScore.if_number_is_not_provided_return_400(
+                self, create_score)
 
     class TestGuestAndDefaultUser:
 
@@ -201,7 +203,7 @@ class TestCreateScore:
             authenticate()
 
             # Act, Assert
-            if_data_is_invalid_returns_400(self, create_score)
+            TestCreateScore.if_data_is_invalid_returns_400(self, create_score)
 
         def test_if_number_is_not_provided_return_400(self, authenticate, create_score):
 
@@ -209,7 +211,8 @@ class TestCreateScore:
             authenticate()
 
             # Act, Assert
-            if_number_is_not_provided_return_400(self, create_score)
+            TestCreateScore.if_number_is_not_provided_return_400(
+                self, create_score)
 
 
 @pytest.mark.django_db
