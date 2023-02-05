@@ -266,23 +266,50 @@ class TestUpdateScore:
             # assert
             assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
-    @pytest.mark.skip
     class TestGuestAndDefaultUser:
 
         """
         HAPPY PATHS
         """
 
-        def test_if_user_updates_score_return_200(self, authenticate, create_score):
-            pass
+        def test_if_user_updates_score_return_200(self, authenticate, update_score):
+
+            #  arrange
+            number = 2
+            user = baker.make(User)
+            authenticate(user=user)
+            score = baker.make(Score, user_id=user.id, number=1)
+
+            # act
+            response = update_score(score.uuid, number)
+
+            # assert
+            assert response.status_code == status.HTTP_200_OK
+            assert response.data['number'] == number
+
+        def test_if_updating_score_updating_time_updated_field(self, authenticate, update_score):
+            #  arrange
+            number = 2
+            user = baker.make(User)
+            authenticate(user=user)
+            score = baker.make(Score, user_id=user.id, number=1)
+
+            # act
+            update_score(score.uuid, number)
+
+            # assert
+            scoreUpdate = Score.objects.get(
+                user_id=user.id, date=datetime.today())
+            assert scoreUpdate.time_updated > score.time_updated
 
         """
         UNHAPPY PATHS
         """
-
+        @pytest.mark.skip
         def test_if_score_does_not_exist_return_200(self, authenticate, create_score):
             pass
 
+        @pytest.mark.skip
         def test_if_data_is_invalid_returns_400(self, authenticate, create_score):
 
             # Arrange
@@ -291,6 +318,7 @@ class TestUpdateScore:
             # Act, Assert
             # if_data_is_invalid_returns_400(self, create_score)
 
+        @pytest.mark.skip
         def test_if_number_is_not_provided_return_400(self, authenticate, create_score):
 
             # Arrange

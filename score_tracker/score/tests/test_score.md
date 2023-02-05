@@ -44,14 +44,13 @@ Unhappy Paths:
 - [x] should fail if number is invalid
 - [x] should fail if number is not provided
 - [x] should fail user is anonymous
-- [x] should fail user tried to update score not created by them
+- [x] should fail user tries to update score not owned by them
 
 ### GUEST/NORMAL USER
 
 Happy Paths:
-- [ ] Should succced if exists
-    - [ ] should be possible to update: time, number
-    - [ ] response should return: number, uuid, date, time
+- [x] Should succed if exists and update number property
+- [x] updating a score should update the time_updated property
 
 Unhappy Paths:
 - [ ] should fail if it doesn't exist
