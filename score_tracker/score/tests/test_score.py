@@ -215,56 +215,69 @@ class TestCreateScore:
 @pytest.mark.django_db
 class TestUpdateScore:
 
+    def if_uuid_is_invalid_return_401(self, update_score):
+
+        #  arrange
+        scoreUUID = uuid.uuid4()
+
+        # act
+        response = update_score(scoreUUID)
+
+        # assert
+        assert response.status_code == status.HTTP_404_NOT_FOUND
+
+    def if_uuid_is_exists_return_401(self, update_score):
+
+        #  arrange
+        scoreUUID = ""
+
+        # act
+        response = update_score(scoreUUID)
+
+        # assert
+        assert response.status_code == status.HTTP_404_NOT_FOUND
+
+    def if_user_is_anon_return_401(self, update_score):
+
+        #  arrange
+        user = baker.make(User)
+        score = baker.make(Score, user_id=user.id)
+
+        # act
+        response = update_score(score.uuid)
+
+        # assert
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    def if_user_can_update_unnassigned_score_return_401(self, update_score):
+
+        #  arrange
+        score = baker.make(Score)
+
+        # act
+        response = update_score(score.uuid)
+
+        # assert
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
     class TestAnonymousUser:
 
         """
         UNHAPPY PATHS
         """
 
-        def test_if_uuid_is_invalid_return_401(self, authenticate, update_score):
+        def test_if_uuid_is_invalid_return_401(self, update_score):
+            TestUpdateScore.if_uuid_is_invalid_return_401(self, update_score)
 
-            #  arrange
-            scoreUUID = uuid.uuid4()
+        def test_if_uuid_is_exists_return_401(self, update_score):
+            TestUpdateScore.if_uuid_is_exists_return_401(self, update_score)
 
-            # act
-            response = update_score(scoreUUID)
+        def test_if_user_is_anon_return_401(self, update_score):
+            TestUpdateScore.if_user_is_anon_return_401(self, update_score)
 
-            # assert
-            assert response.status_code == status.HTTP_404_NOT_FOUND
-
-        def test_if_uuid_is_invalid_return_401(self, authenticate, update_score):
-
-            #  arrange
-            scoreUUID = ""
-
-            # act
-            response = update_score(scoreUUID)
-
-            # assert
-            assert response.status_code == status.HTTP_404_NOT_FOUND
-
-        def test_if_user_is_anon_return_401(self, authenticate, update_score):
-
-            #  arrange
-            user = baker.make(User)
-            score = baker.make(Score, user_id=user.id)
-
-            # act
-            response = update_score(score.uuid)
-
-            # assert
-            assert response.status_code == status.HTTP_401_UNAUTHORIZED
-
-        def test_if_user_can_update_unnassigned_score_return_401(self, authenticate, update_score):
-
-            #  arrange
-            score = baker.make(Score)
-
-            # act
-            response = update_score(score.uuid)
-
-            # assert
-            assert response.status_code == status.HTTP_401_UNAUTHORIZED
+        def test_if_user_can_update_unnassigned_score_return_401(self, update_score):
+            TestUpdateScore.if_user_can_update_unnassigned_score_return_401(
+                self, update_score)
 
     class TestGuestAndDefaultUser:
 
