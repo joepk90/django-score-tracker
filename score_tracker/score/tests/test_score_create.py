@@ -5,7 +5,7 @@ from model_bakery import baker
 import pytest
 from score.models import Score, SCORE_DATE_FIELD_FORMAT
 from django.core.cache import cache
-from datetime import datetime
+from datetime import datetime, time
 
 User = get_user_model()
 
@@ -37,19 +37,27 @@ class TestCreateScore:
         #  Assert
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
+    def if_date_and_time_fields_are_set(self, create_score):
+
+        # Arrange
+        number = 3
+
+        # act
+        response = create_score({"number": number})
+        score = Score.objects.get(uuid=response.data['uuid'])
+
+        # Assert
+        assert response.data['date'] == datetime.today().strftime(
+            SCORE_DATE_FIELD_FORMAT)
+        assert isinstance(score.time, time) == True
+        assert isinstance(score.time_updated, time) == True
+
     class TestAnonymousUser:
 
         """
         HAPPY PATHS
         """
 
-        # @pytest.mark.skip
-        # def test_date_and_time_fields_are_set(self, create_score, authenticate):
-        # check if the following fields are set correctly
-        # - date
-        # - time
-        # - time_updates (this might not set when object is first created)
-        # pass
         def test_if_throttle_limit_not_reached_return_200(self, create_score):
 
             # Arrange
@@ -65,6 +73,13 @@ class TestCreateScore:
             assert response.data['uuid'] is not None
             assert response.data['date'] is not None
             assert response.data['tokens'] is not None
+            # TODO query account has been created!
+
+        def test_if_date_and_time_fields_are_set(self, create_score):
+
+            cache.clear()
+            # Act, Assert
+            TestCreateScore.if_date_and_time_fields_are_set(self, create_score)
 
         def test_if_score_has_correct_relationship_to_user_object(self, create_score):
 
@@ -128,6 +143,7 @@ class TestCreateScore:
         def test_if_user_is_authenticated_return_200(self, authenticate, create_score):
 
             # Arrange
+            cache.clear()
             authenticate()
             number = 1
 
@@ -140,9 +156,19 @@ class TestCreateScore:
             assert response.data['uuid'] is not None
             assert response.data['date'] is not None
 
+        def test_if_date_and_time_fields_are_set(self, authenticate, create_score):
+
+            # Arrange
+            cache.clear()
+            authenticate()
+
+            # Act, Assert
+            TestCreateScore.if_date_and_time_fields_are_set(self, create_score)
+
         def test_if_score_has_correct_relationship_to_user_object(self, authenticate, create_score):
 
             # Arrange
+            cache.clear()
             user = baker.make(User)
             authenticate(user=user)
             number = 1

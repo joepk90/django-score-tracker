@@ -14,7 +14,7 @@ Happy Paths:
 - [x] should succeed if throttle limit not reached
     - [x] response should return: auth tokens, number, uuid
 - [x] created score shold have user_id that matches the user id of the created user
-- [ ] test_date_and_time_fields_are_set
+- [x] test date and time fields are set
 
 
 Unhappy Paths:
@@ -27,7 +27,7 @@ Happy Paths:
 - [x] should be able to create score if user is authenticated
     - [x] response should return: number, uuid, date/times
 - [x] created score should have user_id that matches the user id of the authenticated user
-- [ ] test date and time fields are set
+- [x] test date and time fields are set
 
 
 Unhappy Paths:
