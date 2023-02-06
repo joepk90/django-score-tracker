@@ -17,6 +17,14 @@ def create_score(api_client):
     return do_create_score
 
 
+@pytest.fixture
+def get_user_id_from_access_token():
+    def do_get_user_id_from_access_token(access_token):
+        access_token_obj = AccessToken(access_token)
+        return access_token_obj['user_id']
+    return do_get_user_id_from_access_token
+
+
 @pytest.mark.django_db
 class TestCreateScore:
 
@@ -81,7 +89,7 @@ class TestCreateScore:
             # Act, Assert
             TestCreateScore.if_date_and_time_fields_are_set(self, create_score)
 
-        def test_if_score_has_correct_relationship_to_user_object(self, create_score):
+        def test_if_score_has_correct_relationship_to_user_object(self, create_score, get_user_id_from_access_token):
 
             # Arrange
             cache.clear()
@@ -89,8 +97,8 @@ class TestCreateScore:
 
             # Act
             response = create_score({'number': number})
-            access_token_obj = AccessToken(response.data['tokens']['access'])
-            user_id = access_token_obj['user_id']
+            access_token = response.data['tokens']['access']
+            user_id = get_user_id_from_access_token(access_token)
             score = Score.objects.get(
                 user_id=user_id, date=datetime.today())
 
