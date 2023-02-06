@@ -14,6 +14,7 @@ Happy Paths:
 - [x] should succeed if throttle limit not reached
     - [x] response should return: auth tokens, number, uuid
 - [x] created score shold have user_id that matches the user id of the created user
+- [x] test guest user is created on score creation
 - [x] test date and time fields are set
 
 

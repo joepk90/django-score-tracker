@@ -81,7 +81,24 @@ class TestCreateScore:
             assert response.data['uuid'] is not None
             assert response.data['date'] is not None
             assert response.data['tokens'] is not None
-            # TODO query account has been created!
+
+        def test_if_guest_user_is_created_on_score_creation(self, create_score, get_user_id_from_access_token):
+
+            # Arrange
+            cache.clear()
+            number = 1
+
+            # Act
+            response = create_score({'number': number})
+            access_token = response.data['tokens']['access']
+            user_id = get_user_id_from_access_token(access_token)
+            user = User.objects.get(id=user_id)
+            score = Score.objects.get(user_id=user.id)
+
+            #  Assert
+            assert response.data['uuid'] == score.uuid
+            assert user.id == score.user_id
+            assert user.is_guest == True
 
         def test_if_date_and_time_fields_are_set(self, create_score):
 
