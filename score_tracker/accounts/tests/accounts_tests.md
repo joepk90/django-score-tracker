@@ -1,7 +1,19 @@
-# ACCOUTNS TESTS
+# ACCOUNTS TESTS
+
+## CREATE USER
+Note: a lot of logic is handled by Djoser - only test custom user/authentication logic
+
+Unhappy Paths:
+- [ ] User should not be able to login using username
+- [ ] User should not be able to login using invalid email address
+
+Happy Paths:
+- [ ] User should be able to register using email address
+- [ ] User should be able to login using email address
+- [x] Guest users creation should have the is_guest property set to True
 
 
-## UPDATE ACCOUNT
+## UPDATE USER
 
 ### ANON USER
 
