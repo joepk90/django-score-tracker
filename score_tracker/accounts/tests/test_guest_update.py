@@ -110,9 +110,6 @@ class TestUpdateGuestAccount:
 
             # Assert
             assert response.status_code == status.HTTP_200_OK
-            assert response.data['new_email'] is not None
-            assert response.data['password'] is not None
-            # TODO this is bad - we shouldn't return users passwords...
 
         """
         UNHAPPY PATHS
