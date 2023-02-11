@@ -7,14 +7,42 @@ User = get_user_model()
 
 
 @pytest.fixture
-def update_score(api_client):
-    def do_update_score():
-        return api_client.put(f'/auth/guest/')
-    return do_update_score
+def update_guest_user(api_client):
+    def do_update_guest_user(user_credentials):
+        return api_client.put(f'/auth/guest/', user_credentials)
+    return do_update_guest_user
 
 
-@pytest.mark.skip
-class GuestAccount:
+class TestUpdateGuestAccount:
 
-    def test_set_user_credentials():
+    class TestAnonymousUser:
+
+        """
+        UNHAPPY PATHS
+        """
+
+        def test_should_return_401(self, update_guest_user):
+
+            #  arrange
+            user_credentials = {
+                "new_email": "test@gmail.com",
+                "password": "hasnsdeurnahfaa78awen"
+            }
+
+            # act
+            response = update_guest_user(user_credentials)
+
+            # assert
+            assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    @pytest.mark.skip
+    class TestGuestUser:
+
+        def test_set_user_credentials():
+            pass
+
+            user = baker.make(User)
+
+    @pytest.mark.skip
+    class TestDefaultUser:
         pass

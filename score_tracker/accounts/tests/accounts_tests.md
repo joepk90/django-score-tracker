@@ -6,7 +6,7 @@
 ### ANON USER
 
 Unhappy Paths:
-- [ ] Should fail if user is anon
+- [x] Should return 401 if user is anon
 
 
 ### AUTHENTICATED USER
