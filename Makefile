@@ -3,7 +3,7 @@ PROJECT_DIR=./score_tracker
 runserver:
 	python ${PROJECT_DIR}/manage.py runserver
 
-makemigration:
+migrations:
 	python ${PROJECT_DIR}/manage.py makemigrations
 
 migrate:
