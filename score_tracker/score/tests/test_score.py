@@ -73,20 +73,24 @@ class TestScoreIntToDecimalConversion():
     UNHAPPY PATHS
     """
 
-    def test_if_invalid_int_numbers_are_rejected(self, authenticate, update_score):
+    def test_if_numbers_are_invalid_return_400(self, authenticate, update_score):
 
         # Arrange
         user = baker.make(User)
         score = baker.make(Score, user_id=user.id)
         authenticate(user=user)
-        numbers = [
+
+        invalid_numbers = [
             0.001,
-            # -0, # this passes!
+            0.05,
+            0.50,
+            1.09,
+            99.99,
             10.001,
-            11
+            1001
         ]
 
-        for number in numbers:
+        for number in invalid_numbers:
 
             # Act,
             response = update_score(score.uuid, {'number': number})
@@ -98,25 +102,28 @@ class TestScoreIntToDecimalConversion():
     HAPPY PATHS
     """
 
-    def test_if_int_numbers_are_correctly_saved_as_decimals(self, authenticate, update_score):
+    @pytest.mark.django_db
+    def test_if_numbers_are_valid_return_200(self, authenticate, update_score):
 
         # Arrange
         user = baker.make(User)
         score = baker.make(Score, user_id=user.id)
         authenticate(user=user)
-        numbers = {
-            0: '0.00',
-            0.5: '0.50',
-            0.05: '0.05',
-            1: '1.00',
-            10: '10.00'
-        }
-        # numbers = [0.001, -0, 10.001, 11]
 
-        for input_number, output_number in numbers.items():
+        # some odd numbers here - but probobly not worth trying to prevent them...
+        valid_numbers = {
+            -0: 0,
+            0: 0,
+            5: 5,
+            1.00: 1,
+            10.00: 10
+        }
+
+        for input_number, output_number in valid_numbers.items():
 
             # Act,
             response = update_score(score.uuid, {'number': input_number})
 
             # Assert
+            assert response.status_code == status.HTTP_200_OK
             assert response.data['number'] == output_number

@@ -3,7 +3,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework import status
 from model_bakery import baker
 import pytest
-from score.models import Score, SCORE_DATE_FIELD_FORMAT, convert_int_to_decimal
+from score.models import Score, SCORE_DATE_FIELD_FORMAT
 from django.core.cache import cache
 from datetime import datetime, time
 
@@ -77,7 +77,7 @@ class TestCreateScore:
 
             #  Assert
             assert response.status_code == status.HTTP_201_CREATED
-            assert response.data['number'] == convert_int_to_decimal(number)
+            assert response.data['number'] == number
             assert response.data['uuid'] is not None
             assert response.data['date'] is not None
             assert response.data['tokens'] is not None
@@ -120,8 +120,7 @@ class TestCreateScore:
                 user_id=user_id, date=datetime.today())
 
             #  Assert
-            assert response.data['number'] == convert_int_to_decimal(
-                score.number)
+            assert response.data['number'] == score.number
             assert response.data['uuid'] == score.uuid
 
         """
@@ -178,7 +177,7 @@ class TestCreateScore:
 
             #  Assert
             assert response.status_code == status.HTTP_201_CREATED
-            assert response.data['number'] == convert_int_to_decimal(number)
+            assert response.data['number'] == number
             assert response.data['uuid'] is not None
             assert response.data['date'] is not None
 
@@ -206,8 +205,7 @@ class TestCreateScore:
 
             #  Assert
             assert response.status_code == status.HTTP_201_CREATED
-            assert response.data['number'] == convert_int_to_decimal(
-                score.number)
+            assert response.data['number'] == score.number
             assert response.data['uuid'] == score.uuid
             assert response.data['date'] == score.date.strftime(
                 SCORE_DATE_FIELD_FORMAT)
