@@ -191,7 +191,7 @@ class TestUpdateGuestAccount:
         UNHAPPY PATHS
         """
 
-        def test_if_user_is_guest_return_401(self, authenticate, update_guest_user):
+        def test_if_user_is_not_guest_return_401(self, authenticate, update_guest_user):
 
             # Arrange,
             authenticate()
