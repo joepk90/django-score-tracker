@@ -100,11 +100,10 @@ class TestUpdateGuestAccount:
         HAPPY PATHS
         """
 
-        def test_set_user_credentials_return_200(self, authenticate, update_guest_user):
+        def test_set_user_credentials_return_200(self, authenticate_as_guest, update_guest_user):
 
             # Arrange,
-            user = baker.make(User, is_guest=True)
-            authenticate(user=user)
+            authenticate_as_guest()
 
            # Arrange, Act,
             response = update_guest_user(VALID_USER_CREDENTIALS)
@@ -119,51 +118,46 @@ class TestUpdateGuestAccount:
         UNHAPPY PATHS
         """
 
-        def test_if_email_is_invalid_return_401(self, authenticate, update_guest_user):
+        def test_if_email_is_invalid_return_401(self, authenticate_as_guest, update_guest_user):
 
             # Arrange,
-            user = baker.make(User, is_guest=True)
-            authenticate(user=user)
+            authenticate_as_guest()
 
             # Act, Assert
             TestUpdateGuestAccount.if_email_is_invalid_return_401(
                 update_guest_user)
 
-        def test_if_email_is_not_provided_return_401(self, authenticate, update_guest_user):
+        def test_if_email_is_not_provided_return_401(self, authenticate_as_guest, update_guest_user):
 
             # Arrange,
-            user = baker.make(User, is_guest=True)
-            authenticate(user=user)
+            authenticate_as_guest()
 
             # Act, Assert
             TestUpdateGuestAccount.if_email_is_not_provided_return_401(
                 update_guest_user)
 
-        def test_if_password_is_invalid_return_401(self, authenticate, update_guest_user):
+        def test_if_password_is_invalid_return_401(self, authenticate_as_guest, update_guest_user):
 
             # Arrange,
-            user = baker.make(User, is_guest=True)
-            authenticate(user=user)
+            authenticate_as_guest()
 
             # Act, Assert
             TestUpdateGuestAccount.if_password_is_invalid_return_401(
                 update_guest_user)
 
-        def test_if_password_is_not_provided_return_401(self, authenticate, update_guest_user):
+        def test_if_password_is_not_provided_return_401(self, authenticate_as_guest, update_guest_user):
 
             # Arrange,
-            user = baker.make(User, is_guest=True)
-            authenticate(user=user)
+            authenticate_as_guest()
 
             # Act, Assert
             TestUpdateGuestAccount.if_password_is_not_provided_return_401(
                 update_guest_user)
 
-        def test_if_email_and_password_is_not_provided_return_401(self, authenticate, update_guest_user):
+        def test_if_email_and_password_is_not_provided_return_401(self, authenticate_as_guest, update_guest_user):
 
             # Arrange,
-            user = baker.make(User, is_guest=True)
-            authenticate(user=user)
+            authenticate_as_guest()
 
             # Act, Assert
             TestUpdateGuestAccount.if_email_and_password_is_not_provided_return_401(
