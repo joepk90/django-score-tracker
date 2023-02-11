@@ -17,9 +17,11 @@ Happy Paths:
 
 
 Unhappy Paths:
-- [ ] should fail if invalid email is provided
-- [ ] should fail if invalid password is provided
-- [ ] should fail if both invalid email and password is provided?
+- [x] should fail if invalid email is provided
+- [x] should fail if no email is provided
+- [x] should fail if invalid password is provided
+- [x] should fail if no password is provided
+- [x] should fail if both invalid email and password is provided?
 - [ ] should fail if user attemps to update an account they are not authenticated as
 
 ### DEFAULT USER

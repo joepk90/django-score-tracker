@@ -42,6 +42,45 @@ class TestUpdateGuestAccount:
         # Assert
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
+    def if_email_is_not_provided_return_401(update_guest_user):
+
+        # Arrange, Act
+        response = update_guest_user({
+            "password": PASSWORD
+        })
+
+        # Assert
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+    def if_password_is_invalid_return_401(update_guest_user):
+
+        # Arrange, Act
+        response = update_guest_user({
+            "new_email": EMAIL,
+            "password": "1234"
+        })
+
+        # Assert
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+    def if_password_is_not_provided_return_401(update_guest_user):
+
+        # Arrange, Act
+        response = update_guest_user({
+            "new_email": EMAIL,
+        })
+
+        # Assert
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+    def if_email_and_password_is_not_provided_return_401(update_guest_user):
+
+        # Arrange, Act
+        response = update_guest_user({})
+
+        # Assert
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+
     class TestAnonymousUser:
 
         """
@@ -88,6 +127,46 @@ class TestUpdateGuestAccount:
 
             # Act, Assert
             TestUpdateGuestAccount.if_email_is_invalid_return_401(
+                update_guest_user)
+
+        def test_if_email_is_not_provided_return_401(self, authenticate, update_guest_user):
+
+            # Arrange,
+            user = baker.make(User, is_guest=True)
+            authenticate(user=user)
+
+            # Act, Assert
+            TestUpdateGuestAccount.if_email_is_not_provided_return_401(
+                update_guest_user)
+
+        def test_if_password_is_invalid_return_401(self, authenticate, update_guest_user):
+
+            # Arrange,
+            user = baker.make(User, is_guest=True)
+            authenticate(user=user)
+
+            # Act, Assert
+            TestUpdateGuestAccount.if_password_is_invalid_return_401(
+                update_guest_user)
+
+        def test_if_password_is_not_provided_return_401(self, authenticate, update_guest_user):
+
+            # Arrange,
+            user = baker.make(User, is_guest=True)
+            authenticate(user=user)
+
+            # Act, Assert
+            TestUpdateGuestAccount.if_password_is_not_provided_return_401(
+                update_guest_user)
+
+        def test_if_email_and_password_is_not_provided_return_401(self, authenticate, update_guest_user):
+
+            # Arrange,
+            user = baker.make(User, is_guest=True)
+            authenticate(user=user)
+
+            # Act, Assert
+            TestUpdateGuestAccount.if_email_and_password_is_not_provided_return_401(
                 update_guest_user)
 
     @pytest.mark.django_db
