@@ -15,25 +15,31 @@ def update_guest_user(api_client):
 
 class TestUpdateGuestAccount:
 
+    def if_anon_or_not_guest_return_401(update_guest_user):
+
+        #  arrange
+        user_credentials = {
+            "new_email": "test@gmail.com",
+            "password": "hasnsdeurnahfaa78awen"
+        }
+
+        # act
+        response = update_guest_user(user_credentials)
+
+        # assert
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
     class TestAnonymousUser:
 
         """
         UNHAPPY PATHS
         """
 
-        def test_should_return_401(self, update_guest_user):
+        def test_if_anon_return_401(self, update_guest_user):
 
-            #  arrange
-            user_credentials = {
-                "new_email": "test@gmail.com",
-                "password": "hasnsdeurnahfaa78awen"
-            }
-
-            # act
-            response = update_guest_user(user_credentials)
-
-            # assert
-            assert response.status_code == status.HTTP_401_UNAUTHORIZED
+            # Arrange, Act, Assert
+            TestUpdateGuestAccount.if_anon_or_not_guest_return_401(
+                update_guest_user)
 
     @pytest.mark.skip
     class TestGuestUser:
@@ -43,6 +49,19 @@ class TestUpdateGuestAccount:
 
             user = baker.make(User)
 
-    @pytest.mark.skip
+    @pytest.mark.django_db
     class TestDefaultUser:
-        pass
+
+        """
+        UNHAPPY PATHS
+        """
+
+        def test_if_user_is_guest_return_401(self, authenticate, update_guest_user):
+
+            # Arrange,
+            user = baker.make(User)
+            authenticate(user=user)
+
+            # Act, Assert
+            TestUpdateGuestAccount.if_anon_or_not_guest_return_401(
+                update_guest_user)
