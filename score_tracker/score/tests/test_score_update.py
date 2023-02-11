@@ -9,13 +9,6 @@ from score.models import Score, convert_int_to_decimal
 User = get_user_model()
 
 
-@pytest.fixture
-def update_score(api_client):
-    def do_update_score(uuid, data):
-        return api_client.put(f'/score/{uuid}/', data)
-    return do_update_score
-
-
 @pytest.mark.django_db
 class TestUpdateScore:
 

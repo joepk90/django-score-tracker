@@ -21,3 +21,10 @@ def authenticate(api_client):
 
         return api_client.force_authenticate(user=user)
     return do_authenticate
+
+
+@pytest.fixture
+def update_score(api_client):
+    def do_update_score(uuid, data):
+        return api_client.put(f'/score/{uuid}/', data)
+    return do_update_score
