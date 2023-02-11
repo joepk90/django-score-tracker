@@ -11,9 +11,8 @@ Unhappy Paths:
 
 ### GUEST USER
 Happy Paths:
-- [ ] should succeed if valid email and password is provided
-    - [ ] response should return: email, pasword? check
-    - [ ] should update guest user to false
+- [x] should succeed if valid email and password is provided
+    - [x] should update guest user to false
 
 
 Unhappy Paths:

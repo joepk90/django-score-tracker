@@ -100,16 +100,25 @@ class TestUpdateGuestAccount:
         HAPPY PATHS
         """
 
-        def test_set_user_credentials_return_200(self, authenticate_as_guest, update_guest_user):
+        def test_set_user_credentials_return_200(self, authenticate, update_guest_user):
 
             # Arrange,
-            authenticate_as_guest()
+            user = baker.make(User, is_guest=True)
+            authenticate(user=user)
+            generated_email = user.email
+            generated_password = user.password
 
-            # Arrange, Act,
+            # Act,
             response = update_guest_user(VALID_USER_CREDENTIALS)
+            updated_user = User.objects.get(id=user.id)
 
             # Assert
             assert response.status_code == status.HTTP_200_OK
+            # response returns a success message
+            assert type(response.data) is str
+            assert user.is_guest == False
+            assert generated_email != updated_user.email
+            assert generated_password != updated_user.password
 
         """
         UNHAPPY PATHS
