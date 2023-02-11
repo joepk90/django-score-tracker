@@ -9,9 +9,9 @@ SCORE_DATE_FIELD_FORMAT = '%Y-%m-%d'
 
 class Score(models.Model):
     uuid = ShortUUIDField(length=32)
-    number = models.PositiveSmallIntegerField(validators=[
-        MinValueValidator(1),
-        MaxValueValidator(10)
+    number = models.DecimalField(max_digits=4, decimal_places=2, validators=[
+        MinValueValidator(0.00),
+        MaxValueValidator(10.00)
     ])
     # TODO update date time options?
     date = models.DateField(auto_now_add=True)  # date should never change
