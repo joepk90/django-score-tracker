@@ -7,9 +7,9 @@ from decimal import Decimal
 # TODO get dynamically from django defaults...
 SCORE_DATE_FIELD_FORMAT = '%Y-%m-%d'
 
-
-def convert_int_to_decimal(number):
-    return format(number, '.2f')
+# function can be used to to convert an interger (999) into a decimal with 2 placements (9.99)
+# def convert_int_to_decimal(number):
+#     return format(number, '.2f')
 
 # NUMBER FIELD STRATEGY
 # - save the number as a positive int
