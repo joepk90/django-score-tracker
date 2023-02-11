@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from shortuuid.django_fields import ShortUUIDField
+from decimal import Decimal
 
 # TODO get dynamically from django defaults...
 SCORE_DATE_FIELD_FORMAT = '%Y-%m-%d'
@@ -14,8 +15,8 @@ def convert_int_to_decimal(number):
 class Score(models.Model):
     uuid = ShortUUIDField(length=32)
     number = models.DecimalField(max_digits=4, decimal_places=2, validators=[
-        MinValueValidator(0.00),
-        MaxValueValidator(10.00)
+        MinValueValidator(Decimal('0.00')),
+        MaxValueValidator(Decimal('10.00'))
     ])
     # TODO update date time options?
     date = models.DateField(auto_now_add=True)  # date should never change
