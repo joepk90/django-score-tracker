@@ -31,6 +31,17 @@ class TestUpdateGuestAccount:
         # Assert
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
+    def if_email_is_invalid_return_401(update_guest_user):
+
+        # Arrange, Act
+        response = update_guest_user({
+            "new_email": "test",
+            "password": PASSWORD
+        })
+
+        # Assert
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+
     class TestAnonymousUser:
 
         """
@@ -43,13 +54,41 @@ class TestUpdateGuestAccount:
             TestUpdateGuestAccount.if_anon_or_not_guest_return_401(
                 update_guest_user)
 
-    @pytest.mark.skip
+    @pytest.mark.django_db
     class TestGuestUser:
 
-        def test_set_user_credentials():
-            pass
+        """
+        HAPPY PATHS
+        """
 
-            user = baker.make(User)
+        def test_set_user_credentials_return_200(self, authenticate, update_guest_user):
+
+            # Arrange,
+            user = baker.make(User, is_guest=True)
+            authenticate(user=user)
+
+           # Arrange, Act,
+            response = update_guest_user(VALID_USER_CREDENTIALS)
+
+            # Assert
+            assert response.status_code == status.HTTP_200_OK
+            assert response.data['new_email'] is not None
+            assert response.data['password'] is not None
+            # TODO this is bad - we shouldn't return users passwords...
+
+        """
+        UNHAPPY PATHS
+        """
+
+        def test_if_email_is_invalid_return_401(self, authenticate, update_guest_user):
+
+            # Arrange,
+            user = baker.make(User, is_guest=True)
+            authenticate(user=user)
+
+            # Act, Assert
+            TestUpdateGuestAccount.if_email_is_invalid_return_401(
+                update_guest_user)
 
     @pytest.mark.django_db
     class TestDefaultUser:
