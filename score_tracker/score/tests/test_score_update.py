@@ -4,7 +4,7 @@ from model_bakery import baker
 import pytest
 from datetime import datetime, date
 import uuid
-from score.models import Score
+from score.models import Score, convert_int_to_decimal
 
 User = get_user_model()
 
@@ -146,7 +146,7 @@ class TestUpdateScore:
 
             # assert
             assert response.status_code == status.HTTP_200_OK
-            assert response.data['number'] == number
+            assert response.data['number'] == convert_int_to_decimal(number)
 
         def test_if_updating_score_updating_time_updated_field(self, authenticate, update_score):
             #  arrange

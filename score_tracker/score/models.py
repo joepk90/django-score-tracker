@@ -7,6 +7,10 @@ from shortuuid.django_fields import ShortUUIDField
 SCORE_DATE_FIELD_FORMAT = '%Y-%m-%d'
 
 
+def convert_int_to_decimal(number):
+    return format(number, '.2f')
+
+
 class Score(models.Model):
     uuid = ShortUUIDField(length=32)
     number = models.DecimalField(max_digits=4, decimal_places=2, validators=[
