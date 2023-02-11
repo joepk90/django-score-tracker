@@ -64,3 +64,59 @@ class TestDeleteScore:
 
             # Assert
             assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+
+
+@pytest.mark.django_db
+class TestScoreIntToDecimalConversion():
+
+    """
+    UNHAPPY PATHS
+    """
+
+    def test_if_invalid_int_numbers_are_rejected(self, authenticate, update_score):
+
+        # Arrange
+        user = baker.make(User)
+        score = baker.make(Score, user_id=user.id)
+        authenticate(user=user)
+        numbers = [
+            0.001,
+            # -0, # this passes!
+            10.001,
+            11
+        ]
+
+        for number in numbers:
+
+            # Act,
+            response = update_score(score.uuid, {'number': number})
+
+            # Assert
+            assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+    """
+    HAPPY PATHS
+    """
+
+    def test_if_int_numbers_are_correctly_saved_as_decimals(self, authenticate, update_score):
+
+        # Arrange
+        user = baker.make(User)
+        score = baker.make(Score, user_id=user.id)
+        authenticate(user=user)
+        numbers = {
+            0: '0.00',
+            0.5: '0.50',
+            0.05: '0.05',
+            1: '1.00',
+            10: '10.00'
+        }
+        # numbers = [0.001, -0, 10.001, 11]
+
+        for input_number, output_number in numbers.items():
+
+            # Act,
+            response = update_score(score.uuid, {'number': input_number})
+
+            # Assert
+            assert response.data['number'] == output_number
