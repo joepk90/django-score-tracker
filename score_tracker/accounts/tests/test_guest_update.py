@@ -169,6 +169,17 @@ class TestUpdateGuestAccount:
             TestUpdateGuestAccount.if_email_and_password_is_not_provided_return_401(
                 update_guest_user)
 
+        @pytest.mark.skip
+        def test_if_user_updates_unrelated_account_return_401(self, authenticate, update_guest_user):
+
+            # is this even possible to do/test?
+            pass
+
+        @pytest.mark.skip
+        def test_if_user_requests_non_unique_email_address_return_401(self, authenticate, update_guest_user):
+
+            pass
+
     @pytest.mark.django_db
     class TestDefaultUser:
 
