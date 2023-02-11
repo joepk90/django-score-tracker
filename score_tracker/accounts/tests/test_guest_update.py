@@ -13,20 +13,22 @@ def update_guest_user(api_client):
     return do_update_guest_user
 
 
+EMAIL = "test@gmail.com"
+PASSWORD = User.objects.make_random_password()
+VALID_USER_CREDENTIALS = {
+    "new_email": EMAIL,
+    "password": PASSWORD
+}
+
+
 class TestUpdateGuestAccount:
 
     def if_anon_or_not_guest_return_401(update_guest_user):
 
-        #  arrange
-        user_credentials = {
-            "new_email": "test@gmail.com",
-            "password": "hasnsdeurnahfaa78awen"
-        }
+        # Arrange, Act,
+        response = update_guest_user(VALID_USER_CREDENTIALS)
 
-        # act
-        response = update_guest_user(user_credentials)
-
-        # assert
+        # Assert
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
     class TestAnonymousUser:
