@@ -11,12 +11,17 @@ SCORE_DATE_FIELD_FORMAT = '%Y-%m-%d'
 def convert_int_to_decimal(number):
     return format(number, '.2f')
 
+# NUMBER FIELD STRATEGY
+# - save the number as a positive int
+# - cover number to decimal when neccessary (maybe only required in the client)
+# https://stackoverflow.com/questions/2569015/django-floatfield-or-decimalfield-for-currency#answer-50376841
+
 
 class Score(models.Model):
     uuid = ShortUUIDField(length=32)
-    number = models.DecimalField(max_digits=4, decimal_places=2, validators=[
-        MinValueValidator(Decimal('0.00')),
-        MaxValueValidator(Decimal('10.00'))
+    number = models.PositiveSmallIntegerField(validators=[
+        MinValueValidator(0),
+        MaxValueValidator(1000)
     ])
     # TODO update date time options?
     date = models.DateField(auto_now_add=True)  # date should never change
