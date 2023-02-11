@@ -104,7 +104,7 @@ class TestUpdateGuestAccount:
             # Arrange,
             authenticate_as_guest()
 
-           # Arrange, Act,
+            # Arrange, Act,
             response = update_guest_user(VALID_USER_CREDENTIALS)
 
             # Assert
