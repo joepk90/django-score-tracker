@@ -49,7 +49,9 @@ class GuestUserUpdateViewSet(UserViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        message = "Account information updated successfully. This account is no longer a Guest account."
+        return Response(message, status=status.HTTP_200_OK)
+        # return Response(serializer.data, status=status.HTTP_200_OK) # return email and password
 
     def perform_update(self, serializer, *args, **kwargs):
 
