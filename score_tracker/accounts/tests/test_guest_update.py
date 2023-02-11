@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from rest_framework import status
-from model_bakery import baker
 import pytest
 
 User = get_user_model()
@@ -184,8 +183,7 @@ class TestUpdateGuestAccount:
         def test_if_user_is_guest_return_401(self, authenticate, update_guest_user):
 
             # Arrange,
-            user = baker.make(User)
-            authenticate(user=user)
+            authenticate()
 
             # Act, Assert
             TestUpdateGuestAccount.if_anon_or_not_guest_return_401(
