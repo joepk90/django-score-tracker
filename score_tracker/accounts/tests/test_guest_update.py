@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import status
+from model_bakery import baker
 import pytest
 
 User = get_user_model()
@@ -162,16 +163,20 @@ class TestUpdateGuestAccount:
             TestUpdateGuestAccount.if_email_and_password_is_not_provided_return_401(
                 update_guest_user)
 
-        @pytest.mark.skip
-        def test_if_user_updates_unrelated_account_return_401(self, authenticate, update_guest_user):
+        def test_if_user_requests_non_unique_email_address_return_400(self, authenticate_as_guest, update_guest_user):
 
-            # is this even possible to do/test?
-            pass
+            # Arrange,
+            authenticate_as_guest()
+            baker.make(User, email=EMAIL, password=PASSWORD)
 
-        @pytest.mark.skip
-        def test_if_user_requests_non_unique_email_address_return_401(self, authenticate, update_guest_user):
+            # Arrange, Act
+            response = update_guest_user({
+                "new_email": EMAIL,
+                "password": PASSWORD
+            })
 
-            pass
+            # Assert
+            assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     @pytest.mark.django_db
     class TestDefaultUser:
