@@ -19,4 +19,4 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Docker Build
-        run: make ci-docker-build
+        run: make ci-docker-test
