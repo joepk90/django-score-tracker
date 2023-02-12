@@ -1,5 +1,7 @@
 PROJECT_DIR=./score_tracker
 
+DOCKER_REPOSITORY=django-score-tracker
+
 runserver:
 	python ${PROJECT_DIR}/manage.py runserver
 
@@ -14,3 +16,6 @@ tests:
 
 watch-tests:
 	ptw  ${PROJECT_DIR}
+
+docker-build:
+	docker build -t $(DOCKER_REPOSITORY):$(COMMIT_SHA) ./score_tracker/
