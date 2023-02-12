@@ -1,0 +1,11 @@
+From python:3.9
+
+RUN pip install
+
+COPY . /score_tracker
+
+WORKDIR /score_tracker
+
+ENV PORT 8080
+
+CMD pytest
