@@ -1,0 +1,22 @@
+name: Test
+
+on:
+  push:
+    branches-ignore:
+      - setup-gh-ci
+
+env:
+  GITHUB_TOKEN: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
+  DOCKER_ID: ${{ secrets.DEX_DOCKER_ID }}
+  DOCKER_PASSWORD: ${{ secrets.DEX_DOCKER_PASSWORD }}
+  COMMIT_SHA: ${{ github.sha }}
+jobs:
+  docker-image:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Docker Build
+        run: make ci-docker-build
