@@ -5,16 +5,14 @@ ARG SECRET_KEY='TESTING_1234'
 COPY ./Pipfile .
 COPY ./Pipfile.lock .
 RUN pip install pipenv==2023.2.18
-# RUN pipenv lock -d
-RUN pipenv requirements > requirements_dev.txt --dev
-    # && pipenv --dev --requirements > requirements_dev.txt  \
-RUN pip install -r requirements_dev.txt
-RUN cat requirements_dev.txt
+# RUN pipenv lock -d # generate Pifile.lock
+RUN pipenv requirements > requirements-dev.txt --dev
+RUN pip install -r requirements-dev.txt
 
-COPY . /score_tracker/
-# WORKDIR /score_tracker
-# RUN ls ./score_tracker/score_tracker
+# COPY: SRC : DEST (local -> container)
+COPY ./score_tracker ./score_tracker/
 
-RUN pytest ./score_tracker/score_tracker
+# make score_tracker
+WORKDIR /score_tracker
 
-# RUN python ./manage.py test
+RUN pytest ./
