@@ -9,7 +9,10 @@ RUN pipenv requirements > requirements_dev.txt --dev
 RUN pip install -r requirements_dev.txt
 RUN cat requirements_dev.txt
 
-COPY . /score_tracker
+COPY . /score_tracker/
 # WORKDIR /score_tracker
+# RUN ls ./score_tracker/score_tracker
 
-RUN pytest ./score_tracker
+RUN pytest ./score_tracker/score_tracker
+
+# RUN python ./manage.py test
