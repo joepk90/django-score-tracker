@@ -1,10 +1,10 @@
 From python:3.9
 
-RUN pip install --upgrade pip
-RUN pip install pipenv
-RUN pipenv install --dev
+RUN  pip install pipenv  \
+    && pipenv lock --dev --requirements > requirements_dev.txt  \
+    && pip install -r requirements_dev.txt
 
 COPY . /score_tracker
 # WORKDIR /score_tracker
 
-RUN pipenv run pytest ./score_tracker
+RUN pytest ./score_tracker
