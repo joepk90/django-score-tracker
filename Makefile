@@ -2,6 +2,11 @@ PROJECT_DIR=./score_tracker
 
 DOCKER_REPOSITORY=django-score-tracker
 
+# pipenv, version 2021.5.29
+generate-requirements:
+	pipenv lock -r > requirements.txt
+	pipenv lock --dev --requirements > requirements-dev.txt 
+
 runserver:
 	python ${PROJECT_DIR}/manage.py runserver
 
