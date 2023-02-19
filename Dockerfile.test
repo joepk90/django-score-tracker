@@ -1,5 +1,7 @@
 From python:3.9
 
+ARG SECRET_KEY='1234'
+
 COPY ./Pipfile .
 COPY ./Pipfile.lock .
 RUN pip install pipenv
