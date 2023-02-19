@@ -1,11 +1,11 @@
 From python:3.9
 
-ARG SECRET_KEY='1234'
+ARG SECRET_KEY='TESTING_1234'
 
 COPY ./Pipfile .
 COPY ./Pipfile.lock .
-RUN pip install pipenv
-RUN pipenv lock -d
+RUN pip install pipenv==2023.2.18
+# RUN pipenv lock -d
 RUN pipenv requirements > requirements_dev.txt --dev
     # && pipenv --dev --requirements > requirements_dev.txt  \
 RUN pip install -r requirements_dev.txt
