@@ -23,7 +23,7 @@ watch-tests:
 	ptw  ${PROJECT_DIR}
 
 ci-docker-test:
-	docker build -f ./Dockerfile.test ./
+	docker build -t $(DOCKER_REPOSITORY):test -f ./Dockerfile.test ./
 
 ci-docker-build:
 	docker build -t $(DOCKER_REPOSITORY):$(COMMIT_SHA) ./
