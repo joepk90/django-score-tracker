@@ -1,8 +1,8 @@
 From python:3.9
 
 RUN  pip install pipenv  \
-    # && pipenv lock -d  
-    && pipenv requirements > requirements_dev.txt --dev 
+    # && pipenv lock -d  \
+    && pipenv requirements > requirements_dev.txt --dev \
     # && pipenv --dev --requirements > requirements_dev.txt  \
     && pip install -r requirements_dev.txt
 
