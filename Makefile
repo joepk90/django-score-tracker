@@ -18,7 +18,7 @@ watch-tests:
 	ptw  ${PROJECT_DIR}
 
 ci-docker-test:
-	docker build -f ./score_tracker/Dockerfile.test ./score_tracker/
+	docker build -f ./Dockerfile.test
 
 ci-docker-build:
-	docker build -t $(DOCKER_REPOSITORY):$(COMMIT_SHA) ./score_tracker/
+	docker build -t $(DOCKER_REPOSITORY):$(COMMIT_SHA)
