@@ -35,7 +35,7 @@ class TestCreateScore:
 
         #  Assert
         assert response.status_code == status.HTTP_400_BAD_REQUEST
-        assert response.data['number'] is None
+        assert response.data['number'] is not None
 
     def if_number_is_not_provided_return_400(self, create_score):
 
