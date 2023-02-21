@@ -33,9 +33,13 @@ ci-docker-test:
 ci-docker-build:
 	docker build -t $(DOCKER_REPOSITORY):$(COMMIT_SHA) ./
 	docker build -t $(DOCKER_REPOSITORY):$(LATEST_TAG) ./
+	@echo "Created new tagged image: $(DOCKER_REPOSITORY):$(COMMIT_SHA)"
+	@echo "Created new tagged image: $(DOCKER_REPOSITORY):$(LATEST_TAG)"
 
 ci-docker-push: ci-docker-auth
 	docker push $(DOCKER_REPOSITORY):$(COMMIT_SHA)
 	docker push $(DOCKER_REPOSITORY):$(LATEST_TAG)
+	@echo "Deployed tagged image: $(DOCKER_REPOSITORY):$(COMMIT_SHA)"
+	@echo "Deployed tagged image: $(DOCKER_REPOSITORY):$(LATEST_TAG)"
 
 
