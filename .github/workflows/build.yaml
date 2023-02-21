@@ -6,7 +6,6 @@ on:
       - setup-gh-ci-build
 
 env:
-  GITHUB_TOKEN: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
   DOCKER_ID: ${{ secrets.DOCKER_ID }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -18,6 +17,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      
+      - name: Docker Test
+        run: make ci-docker-test
 
       - name: Docker Build
         run: make ci-docker-build
