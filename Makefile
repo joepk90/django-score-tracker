@@ -25,7 +25,7 @@ watch-tests:
 
 ci-docker-auth:
 	@echo "Logging in to $(DOCKER_REGISTRY) as $(DOCKER_ID)"
-	@docker login -u $(DOCKER_ID) -p $(DOCKER_PASSWORD) $(DOCKER_REGISTRY)
+	@docker login -u $(DOCKER_ID) -p $(DOCKER_PASSWORD)
 
 ci-docker-test:
 	docker build -t $(DOCKER_REPOSITORY):test -f ./Dockerfile.test ./
