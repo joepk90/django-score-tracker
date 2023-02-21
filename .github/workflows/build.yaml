@@ -1,9 +1,9 @@
 name: Build
 
 on:
-  merge:
+  push:
     branches:
-      - master
+      - setup-gh-ci-build
 
 env:
   GITHUB_TOKEN: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
