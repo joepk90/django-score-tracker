@@ -1,10 +1,12 @@
 From python:3.9
 
+RUN pip3 freeze > requirements.txt
+
 COPY ./requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY . /score_tracker
+COPY ./score_tracker /score_tracker
 
 WORKDIR /score_tracker
 
