@@ -1,7 +1,7 @@
 PROJECT_DIR=./score_tracker
-
-DOCKER_REPOSITORY=django-score-tracker
 LATEST_TAG=latest
+DOCKER_CONTAINER=django-score-tracker
+DOCKER_REPOSITORY=$(DOCKER_REGISTRY)/$(DOCKER_CONTAINER)
 
 # pipenv, version 2021.5.29
 generate-requirements:
@@ -35,7 +35,7 @@ ci-docker-build:
 	docker build -t $(DOCKER_REPOSITORY):$(LATEST_TAG) ./
 
 ci-docker-push: ci-docker-auth
-	docker push $(DOCKER_REGISTRY)/$(DOCKER_REPOSITORY):$(COMMIT_SHA)
-	docker push $(DOCKER_REGISTRY)/$(DOCKER_REPOSITORY):$(LATEST_TAG)
+	docker push $(DOCKER_REPOSITORY):$(COMMIT_SHA)
+	docker push $(DOCKER_REPOSITORY):$(LATEST_TAG)
 
 
