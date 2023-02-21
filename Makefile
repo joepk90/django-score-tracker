@@ -1,7 +1,7 @@
 PROJECT_DIR=./score_tracker
-
-DOCKER_REPOSITORY=django-score-tracker
 LATEST_TAG=latest
+DOCKER_CONTAINER=django-score-tracker
+DOCKER_REPOSITORY=$(DOCKER_REGISTRY)/$(DOCKER_CONTAINER)
 
 # pipenv, version 2021.5.29
 generate-requirements:
@@ -25,7 +25,7 @@ watch-tests:
 
 ci-docker-auth:
 	@echo "Logging in to $(DOCKER_REGISTRY) as $(DOCKER_ID)"
-	@docker login -u $(DOCKER_ID) -p $(DOCKER_PASSWORD) $(DOCKER_REGISTRY)
+	@docker login -u $(DOCKER_ID) -p $(DOCKER_PASSWORD)
 
 ci-docker-test:
 	docker build -t $(DOCKER_REPOSITORY):test -f ./Dockerfile.test ./
@@ -33,9 +33,13 @@ ci-docker-test:
 ci-docker-build:
 	docker build -t $(DOCKER_REPOSITORY):$(COMMIT_SHA) ./
 	docker build -t $(DOCKER_REPOSITORY):$(LATEST_TAG) ./
+	@echo "Created new tagged image: $(DOCKER_REPOSITORY):$(COMMIT_SHA)"
+	@echo "Created new tagged image: $(DOCKER_REPOSITORY):$(LATEST_TAG)"
 
 ci-docker-push: ci-docker-auth
 	docker push $(DOCKER_REPOSITORY):$(COMMIT_SHA)
 	docker push $(DOCKER_REPOSITORY):$(LATEST_TAG)
+	@echo "Deployed tagged image: $(DOCKER_REPOSITORY):$(COMMIT_SHA)"
+	@echo "Deployed tagged image: $(DOCKER_REPOSITORY):$(LATEST_TAG)"
 
 
