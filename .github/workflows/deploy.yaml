@@ -32,7 +32,6 @@ jobs:
         uses: 'google-github-actions/auth@v0.4.0'
         with:
           credentials_json: '${{ secrets.GRC_CREDENTIALS }}'
-        run: make ci-gcr-push
 
-      # - name: GCR Push
-      #   run: make ci-gcr-push
+      - name: GCR Push
+        run: make ci-gcr-push
