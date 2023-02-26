@@ -35,8 +35,6 @@ jobs:
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
-        with:
-          service_account_key: ${{ secrets.GRC_CREDENTIALS }}
 
       - name: GCR Push
         run: make ci-gcr-push
