@@ -1,8 +1,10 @@
 From python:3.9
 
-RUN pip3 freeze > requirements.txt
+COPY ./Pipfile .
 
-COPY ./requirements.txt .
+COPY ./Pipfile.lock .
+
+RUN pip3 freeze > requirements.txt
 
 RUN pip install -r requirements.txt
 
