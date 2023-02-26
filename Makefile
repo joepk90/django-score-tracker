@@ -49,9 +49,13 @@ ci-docker-push: ci-docker-auth
 	@echo "Deployed tagged image: $(DOCKER_REPOSITORY):$(COMMIT_SHA)"
 	@echo "Deployed tagged image: $(DOCKER_REPOSITORY):$(LATEST_TAG)"
 
-
-# google container registry
-ci-gcr-push: ci-gcr-build
+ci-gcloud-configure-docker:
 	gcloud auth configure-docker -q
-	docker push gcr.io/django-score-tracker/django-score-tracker:latest
+	@echo "configured gcloud for docker"
+
+# push to google container registry
+ci-gcr-push: ci-gcr-build ci-gcloud-configure-docker
+	docker push ${GOOGLE_REPOSITORY}:$(COMMIT_SHA)
+	docker push ${GOOGLE_REPOSITORY}:$(LATEST_TAG)
+	@echo "Deployed tagged image: $(GOOGLE_REPOSITORY):$(COMMIT_SHA)"
 	@echo "Deployed tagged image: $(GOOGLE_REPOSITORY):$(LATEST_TAG)"
