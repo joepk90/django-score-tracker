@@ -37,6 +37,12 @@ ci-docker-build:
 	@echo "Created new tagged image: $(DOCKER_REPOSITORY):$(COMMIT_SHA)"
 	@echo "Created new tagged image: $(DOCKER_REPOSITORY):$(LATEST_TAG)"
 
+ci-gcr-build:
+	docker build -t $(GOOGLE_REPOSITORY):$(COMMIT_SHA) ./
+	docker build -t $(GOOGLE_REPOSITORY):$(LATEST_TAG) ./
+	@echo "Created new tagged image: $(GOOGLE_REPOSITORY):$(COMMIT_SHA)"
+	@echo "Created new tagged image: $(GOOGLE_REPOSITORY):$(LATEST_TAG)"
+
 ci-docker-push: ci-docker-auth
 	docker push $(DOCKER_REPOSITORY):$(COMMIT_SHA)
 	docker push $(DOCKER_REPOSITORY):$(LATEST_TAG)
@@ -44,7 +50,7 @@ ci-docker-push: ci-docker-auth
 	@echo "Deployed tagged image: $(DOCKER_REPOSITORY):$(LATEST_TAG)"
 
 # google container registry
-ci-gcr-push:
+ci-gcr-push: ci-gcr-build
 	docker push $(GOOGLE_REPOSITORY):$(COMMIT_SHA)
 	docker push $(GOOGLE_REPOSITORY):$(LATEST_TAG)
 	@echo "Deployed tagged image: $(GOOGLE_REPOSITORY):$(COMMIT_SHA)"
