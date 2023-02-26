@@ -18,14 +18,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       
-      # - name: Docker Test
-      #   run: make ci-docker-test
+      - name: Docker Test
+        run: make ci-docker-test
 
-      # - name: Docker Build
-      #   run: make ci-docker-build
+      - name: Docker Build
+        run: make ci-docker-build
 
-      # - name: Docker Push
-      #   run: make ci-docker-push
+      - name: Docker Push
+        run: make ci-docker-push
 
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
@@ -39,4 +39,3 @@ jobs:
       - name: GCR Push
         run: make ci-gcr-push
 
-# https://github.com/google-github-actions/auth#authenticating-to-container-registry-and-artifact-registry

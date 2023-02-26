@@ -54,7 +54,7 @@ ci-gcloud-configure-docker:
 	@echo "configured gcloud for docker"
 
 # push to google container registry
-ci-gcr-push: ci-gcr-build ci-gcloud-configure-docker
+ci-gcr-push: ci-gcloud-configure-docker ci-gcr-build
 	docker push ${GOOGLE_REPOSITORY}:$(COMMIT_SHA)
 	docker push ${GOOGLE_REPOSITORY}:$(LATEST_TAG)
 	@echo "Deployed tagged image: $(GOOGLE_REPOSITORY):$(COMMIT_SHA)"
