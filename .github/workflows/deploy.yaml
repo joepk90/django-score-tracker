@@ -31,7 +31,7 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v0.4.0'
         with:
-          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+          credentials_json: '${{ secrets.GRC_CREDENTIALS }}'
 
       - name: GCR Push
         run: make ci-gcr-push
