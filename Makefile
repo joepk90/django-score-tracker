@@ -52,5 +52,6 @@ ci-docker-push: ci-docker-auth
 
 # google container registry
 ci-gcr-push: ci-gcr-build
+	gcloud auth configure-docker -q
 	docker push gcr.io/django-score-tracker/django-score-tracker:latest
 	@echo "Deployed tagged image: $(GOOGLE_REPOSITORY):$(LATEST_TAG)"
