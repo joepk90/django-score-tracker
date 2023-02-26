@@ -2,6 +2,7 @@ PROJECT_DIR=./score_tracker
 LATEST_TAG=latest
 DOCKER_CONTAINER=django-score-tracker
 DOCKER_REPOSITORY=$(DOCKER_REGISTRY)/$(DOCKER_CONTAINER)
+GOOGLE_REPOSITORY=gcr.io/$(DOCKER_CONTAINER)/$(DOCKER_CONTAINER)
 
 # pipenv, version 2021.5.29
 generate-requirements:
@@ -42,4 +43,9 @@ ci-docker-push: ci-docker-auth
 	@echo "Deployed tagged image: $(DOCKER_REPOSITORY):$(COMMIT_SHA)"
 	@echo "Deployed tagged image: $(DOCKER_REPOSITORY):$(LATEST_TAG)"
 
-
+# google container registry
+ci-gcr-push:
+	docker push $(GOOGLE_REPOSITORY):$(COMMIT_SHA)
+	docker push $(GOOGLE_REPOSITORY):$(LATEST_TAG)
+	@echo "Deployed tagged image: $(GOOGLE_REPOSITORY):$(COMMIT_SHA)"
+	@echo "Deployed tagged image: $(GOOGLE_REPOSITORY):$(LATEST_TAG)"
