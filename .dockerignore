@@ -6,20 +6,17 @@
 .docker
 
 # Python
-score_tracker/__pycache__/
-score_tracker/*/__pycache__/
-score_tracker/*/*/__pycache__/
-score_tracker/*/*/*/__pycache__/
+**/__pycache__/
 .env/
 .venv/
 venv/
 .env
 .env*
-score_tracker/.env
-score_tracker/.env*
+**/.env
+**/.env*
 
 # Local PostgreSQL data
 data/
 
 # Databases
-db.sqlite3
+**/db.sqlite3
