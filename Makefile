@@ -1,3 +1,4 @@
+# DOCKER_REGISTRY = # githib secret
 PROJECT_DIR=./score_tracker
 LATEST_TAG=latest
 DOCKER_CONTAINER=django-score-tracker
@@ -23,6 +24,10 @@ tests:
 
 watch-tests:
 	ptw  ${PROJECT_DIR}
+
+docker-build:
+	# docker build -t $(DOCKER_CONTAINER) ./  --progress=plain --no-cache
+	docker build -t $(DOCKER_CONTAINER) ./
 
 ci-docker-auth:
 	@echo "Logging in to $(DOCKER_REGISTRY) as $(DOCKER_ID)"
