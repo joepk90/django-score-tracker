@@ -1,10 +1,22 @@
+FROM python:3.9 as build
+
+# install utils/dubug tools
+# RUN apt-get update
+# RUN apt-get install vim -y
+
+RUN pip install pipenv
+COPY ./Pipfile .
+COPY ./Pipfile.lock .
+RUN pipenv requirements > requirements.txt
+
 From python:3.9
 
-COPY ./Pipfile .
+COPY --from=build requirements.txt .
 
-COPY ./Pipfile.lock .
-
-RUN pip3 freeze > requirements.txt
+# install utils/dubug tools
+# RUN apt-get update
+# RUN apt-get install vim -y
+# RUN apt-get -y install coreutils
 
 RUN pip install -r requirements.txt
 
