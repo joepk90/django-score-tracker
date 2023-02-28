@@ -29,6 +29,27 @@ docker-build:
 	# docker build -t $(DOCKER_CONTAINER) ./  --progress=plain --no-cache
 	docker build -t $(DOCKER_CONTAINER) ./
 
+# .env-docker file required in root directory
+docker-run:
+	docker run --env-file ./.env.docker \
+	-d -p 8080:8080 $(DOCKER_CONTAINER)
+	@echo "View instance: http://0.0.0.0:8080"
+
+# example docker run command using environment variables
+docker-run-env-vars:
+	docker run \
+	--env SECRET_KEY='1234' \
+	--env DEBUG=TRUE \
+	--env ENVIRONMENT=PROD \
+	--env ALLOWED_HOSTS=* \
+	--env DATABASE_NAME=dbname \
+	--env DATABASE_USER=dbuser \
+	--env DATABASE_PASS=dbpassword \
+	--env DATABASE_HOST=127.0.0.1 \
+	--env DATABASE_PORT=5432 \
+	-d -p 8080:8080 $(DOCKER_CONTAINER)
+	@echo "View instance: http://0.0.0.0:8080"
+
 ci-docker-auth:
 	@echo "Logging in to $(DOCKER_REGISTRY) as $(DOCKER_ID)"
 	@docker login -u $(DOCKER_ID) -p $(DOCKER_PASSWORD)

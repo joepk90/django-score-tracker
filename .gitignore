@@ -117,3 +117,5 @@ GitHub.sublime-settings
 
 # custom
 .DS_Store
+.env.docker
+**/.env.docker
