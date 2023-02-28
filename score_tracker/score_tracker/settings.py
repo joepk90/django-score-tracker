@@ -94,21 +94,21 @@ WSGI_APPLICATION = 'score_tracker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-database_settings = {}
+database_settings = {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+}
+
 if (ENVIRONMENT == 'PROD'):
     database_settings = {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': env("DATABASE_NAME"),
         'USER': env("DATABASE_USER"),
         'PASSWORD': env("DATABASE_PASS"),
         'HOST': env("DATABASE_HOST"),
         'PORT': env("DATABASE_PORT"),
     }
-else:
-    database_settings = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+
 
 DATABASES = {
     'default': database_settings
