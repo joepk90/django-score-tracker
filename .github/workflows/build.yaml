@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches:
-      - setup-gh-ci-build
+      - master
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
@@ -24,5 +24,5 @@ jobs:
       - name: Docker Build
         run: make ci-docker-build
 
-      - name: Docker Push
-        run: make ci-docker-push
+      # - name: Docker Push
+      #   run: make ci-docker-push
