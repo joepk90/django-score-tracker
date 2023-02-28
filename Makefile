@@ -30,8 +30,10 @@ docker-build:
 	docker build -t $(DOCKER_CONTAINER) ./
 
 # .env-docker file required in root directory
+# PYTHONUNBUFFERED = enable print logging
 docker-run:
 	docker run --env-file ./.env.docker \
+	-e PYTHONUNBUFFERED=1 \
 	-d -p 8080:8080 $(DOCKER_CONTAINER)
 	@echo "View instance: http://0.0.0.0:8080"
 
