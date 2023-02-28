@@ -1,0 +1,65 @@
+version: "3.1"
+
+services:
+    postgres:
+      image: postgres:15.2
+      container_name: django_score_tracker_postgres_server
+      working_dir: /databases
+      volumes:
+        - ./databases:/databases
+        - django_score_tracker_postgres_volume:/data/postgres
+      environment:
+        - POSTGRES_DB=django_score_tracker # creates a new database called docker_postgres_database
+        - POSTGRES_USER=django_score_tracker
+        - POSTGRES_PASSWORD=django_score_tracker
+        - PGDATA=/data/postgres
+      ports:
+        - "5432:5432"
+      networks:
+      - postgres
+      restart: unless-stopped
+
+    pgadmin:
+      container_name: django_score_tracker_pgadmin_server
+      image: dpage/pgadmin4
+      environment:
+        PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+        PGADMIN_DEFAULT_PASSWORD: admin
+        PGADMIN_CONFIG_SERVER_MODE: 'False'
+      volumes:
+        - django_score_tracker_pgadmin_volume:/var/lib/pgadmin
+      ports:
+      - "${PGADMIN_PORT:-5050}:80"
+      networks:
+        - postgres
+      restart: unless-stopped
+    
+    django:
+      container_name: django_score_tracker_build
+      build:
+        context: ./
+        dockerfile: ./Dockerfile
+        args:
+          SECRET_KEY: '1234'
+          DEBUG: 'TRUE'
+          ALLOWED_HOSTS: '*'
+          ENVIRONMENT: PROD
+          DATABASE_HOST: postgres
+          DATABASE_NAME: django_score_tracker
+          DATABASE_USER: django_score_tracker
+          DATABASE_PASS: django_score_tracker
+          DATABASE_PORT: '5432'
+      # volumes:
+      #   - ./score_tracker:/score_tracker
+      networks:
+        - postgres
+      expose:
+      - "8080"
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+    django_score_tracker_postgres_volume:
+    django_score_tracker_pgadmin_volume:
