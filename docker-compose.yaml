@@ -39,6 +39,7 @@ services:
       build:
         context: ./
         dockerfile: ./Dockerfile
+        # TODO get args working - remove docker-compose.env file
         # args:
         #   - SECRET_KEY='1234'
         #   - DEBUG='TRUE'
@@ -59,6 +60,13 @@ services:
       - "8080"
       ports:
         - "8080:8080"
+      # TODO setup django to run migrations
+      # - maybe a python script would be better here to check if migrations exist...
+      # depends_on:
+      #   - postgres
+      # networks: 
+      #   - postgres
+      # command: python manage.py migrate
 
 networks:
   postgres:
