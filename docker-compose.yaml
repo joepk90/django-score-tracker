@@ -18,6 +18,11 @@ services:
       networks:
       - postgres
       restart: unless-stopped
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
 
     pgadmin:
       container_name: django_score_tracker_pgadmin_server
@@ -60,13 +65,11 @@ services:
       - "8080"
       ports:
         - "8080:8080"
-      # TODO setup django to run migrations
-      # - maybe a python script would be better here to check if migrations exist...
-      # depends_on:
-      #   - postgres
-      # networks: 
-      #   - postgres
-      # command: python manage.py migrate
+      depends_on:
+        postgres:
+          condition: service_healthy
+      networks: 
+        - postgres
 
 networks:
   postgres:
