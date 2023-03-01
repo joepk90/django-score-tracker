@@ -13,6 +13,7 @@ djangorestframework-simplejwt = "*"
 djoser = "*"
 shortuuid = "*"
 psycopg2 = "==2.7.7"
+whitenoise = "*"
 
 [dev-packages]
 autopep8 = "*"
