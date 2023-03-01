@@ -89,3 +89,6 @@ ci-gcr-push: ci-gcloud-configure-docker ci-gcr-build
 	docker push ${GOOGLE_REPOSITORY}:$(LATEST_TAG)
 	@echo "Deployed tagged image: $(GOOGLE_REPOSITORY):$(COMMIT_SHA)"
 	@echo "Deployed tagged image: $(GOOGLE_REPOSITORY):$(LATEST_TAG)"
+
+docker-compose-build:
+	docker-compose build --no-cache django
