@@ -26,4 +26,6 @@ WORKDIR /score_tracker
 
 ENV PORT 8080
 
-CMD gunicorn --bind :$PORT score_tracker.wsgi:application
+COPY docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
