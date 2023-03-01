@@ -39,22 +39,26 @@ services:
       build:
         context: ./
         dockerfile: ./Dockerfile
-        args:
-          SECRET_KEY: '1234'
-          DEBUG: 'TRUE'
-          ALLOWED_HOSTS: '*'
-          ENVIRONMENT: PROD
-          DATABASE_HOST: postgres
-          DATABASE_NAME: django_score_tracker
-          DATABASE_USER: django_score_tracker
-          DATABASE_PASS: django_score_tracker
-          DATABASE_PORT: '5432'
+        # args:
+        #   - SECRET_KEY='1234'
+        #   - DEBUG='TRUE'
+        #   - ALLOWED_HOSTS='*'
+        #   - ENVIRONMENT=PROD
+        #   - DATABASE_HOST=postgres
+        #   - DATABASE_NAME=django_score_tracker
+        #   - DATABASE_USER=django_score_tracker
+        #   - DATABASE_PASS=django_score_tracker
+        #   - DATABASE_PORT='5432'
       # volumes:
       #   - ./score_tracker:/score_tracker
+      env_file:
+        - ./docker-compose.env
       networks:
         - postgres
       expose:
       - "8080"
+      ports:
+        - "8080:8080"
 
 networks:
   postgres:
