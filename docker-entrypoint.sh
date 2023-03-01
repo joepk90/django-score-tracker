@@ -5,8 +5,8 @@
 # python manage.py collectstatic --noinput
 
 # Apply database migrations
-echo "Apply database migrations"
-python manage.py migrate
+echo "Apply database migrations for deployment"
+python manage.py deploy
 
 # Start server
 echo "Starting server"
