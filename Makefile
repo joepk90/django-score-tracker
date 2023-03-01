@@ -31,8 +31,10 @@ docker-build:
 
 # .env-docker file required in root directory
 # PYTHONUNBUFFERED = enable print logging
+# help docker respond to ctr + c when not detatched:  -it --init = 
 docker-run:
 	docker run --env-file ./.env.docker \
+	-it --init \
 	-e PYTHONUNBUFFERED=1 \
 	-d -p 8080:8080 $(DOCKER_CONTAINER)
 	@echo "View instance: http://0.0.0.0:8080"
