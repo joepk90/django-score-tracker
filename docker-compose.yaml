@@ -9,7 +9,7 @@ services:
         - ./databases:/databases
         - django_score_tracker_postgres_volume:/data/postgres
       environment:
-        - POSTGRES_DB=django_score_tracker # creates a new database called docker_postgres_database
+        - POSTGRES_DB=django_score_tracker
         - POSTGRES_USER=django_score_tracker
         - POSTGRES_PASSWORD=django_score_tracker
         - PGDATA=/data/postgres
@@ -56,6 +56,7 @@ services:
         DATABASE_PORT: '5432'
       # env_file:
       #   - ./docker-compose.env
+      # TODO - make it possible to edit files?
       # volumes:
       #   - ./score_tracker:/score_tracker
       
