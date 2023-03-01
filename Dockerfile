@@ -1,4 +1,4 @@
-FROM python:3.9 as build
+FROM python:3.7 as build
 
 # install utils/dubug tools
 # RUN apt-get update
@@ -9,7 +9,7 @@ COPY ./Pipfile .
 COPY ./Pipfile.lock .
 RUN pipenv requirements > requirements.txt
 
-From python:3.9
+From python:3.7
 
 COPY --from=build requirements.txt .
 
@@ -26,4 +26,6 @@ WORKDIR /score_tracker
 
 ENV PORT 8080
 
-CMD gunicorn --bind :$PORT score_tracker.wsgi:application
+COPY docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
