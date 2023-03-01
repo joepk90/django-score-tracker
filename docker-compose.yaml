@@ -39,21 +39,21 @@ services:
       build:
         context: ./
         dockerfile: ./Dockerfile
-        # TODO get args working - remove docker-compose.env file
-        # args:
-        #   - SECRET_KEY='1234'
-        #   - DEBUG='TRUE'
-        #   - ALLOWED_HOSTS='*'
-        #   - ENVIRONMENT=PROD
-        #   - DATABASE_HOST=postgres
-        #   - DATABASE_NAME=django_score_tracker
-        #   - DATABASE_USER=django_score_tracker
-        #   - DATABASE_PASS=django_score_tracker
-        #   - DATABASE_PORT='5432'
+      environment:
+        SECRET_KEY: '1234'
+        DEBUG: 'TRUE'
+        ALLOWED_HOSTS: '*'
+        ENVIRONMENT: PROD
+        DATABASE_HOST: postgres
+        DATABASE_NAME: django_score_tracker
+        DATABASE_USER: django_score_tracker
+        DATABASE_PASS: django_score_tracker
+        DATABASE_PORT: '5432'
+      # env_file:
+      #   - ./docker-compose.env
       # volumes:
       #   - ./score_tracker:/score_tracker
-      env_file:
-        - ./docker-compose.env
+      
       networks:
         - postgres
       expose:
