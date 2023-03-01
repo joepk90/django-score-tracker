@@ -5,14 +5,12 @@ name = "pypi"
 
 [packages]
 django = "==3.2"
-mysqlclient = "*"
 django-environ = "*"
 gunicorn = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 djangorestframework-simplejwt = "*"
 djoser = "*"
-whitenoise = "*"
 shortuuid = "*"
 psycopg2 = "==2.7.7"
 
