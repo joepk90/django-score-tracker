@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'djoser',
+    'core',
     'accounts',
     'score',
 ]
