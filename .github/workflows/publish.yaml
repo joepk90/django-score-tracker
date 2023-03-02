@@ -19,8 +19,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Test  
-        uses: ./.github/actions/test
+      # - name: Test  
+      - uses: ./.github/workflows/test.yaml
         # with:
         #   username: ${{ inputs.username }}
         #   token: ${{ secrets.envPAT }}
