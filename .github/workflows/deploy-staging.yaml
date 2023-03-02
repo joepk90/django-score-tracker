@@ -3,9 +3,9 @@ name: Deploy Staging
 on:
   push:
     branches:
-      - setup-gh-ci-deploy
-    needs: 
-      workflows: ["Publish"]
+      - branch-does-not-exist
+    # needs: 
+    #   workflows: ["Publish"]
   # workflow_run:
   #   workflows: ["Publish"]
   #   types:
