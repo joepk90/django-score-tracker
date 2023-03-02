@@ -1,4 +1,4 @@
-name: Build
+name: Publish
 
 on:
   push:
@@ -17,9 +17,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      
-      - name: Docker Test
-        run: make ci-docker-test
 
       - name: Docker Build
         run: make ci-docker-build
@@ -31,7 +28,7 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: '${{ secrets.GRC_CREDENTIALS }}' # TODO update GRC_CREDENTIALS -> GCR_CREDENTIALS
+          credentials_json: '${{ secrets.GRC_CREDENTIALS }}' # TODO update G_CONTAINER_REGISTRY_AUTH
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
@@ -43,7 +40,7 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: '${{ secrets.GCR_CREDENTIALS }}' 
+          credentials_json: '${{ secrets.GCR_CREDENTIALS }}' # TODO update G_CLOUD_RUN_AUTH
 
       - id: 'deploy'
         uses: 'google-github-actions/deploy-cloudrun@v1'
