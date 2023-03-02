@@ -35,6 +35,8 @@ jobs:
         with:
           service: 'django-score-tracker-staging'
           image: 'gcr.io/${{ secrets.DOCKER_REGISTRY }}/django-score-tracker:${{ github.sha }}'
+          region: "northamerica-northeast1"
+          project_id: ${{ secrets.DOCKER_REGISTRY }}x
           secrets:
             APPLICATION_SETTINGS=django_score_tracker_staging_app_settings:latest 
   
