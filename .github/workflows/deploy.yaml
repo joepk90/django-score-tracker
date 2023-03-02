@@ -39,3 +39,18 @@ jobs:
       - name: GCR Push
         run: make ci-gcr-push
 
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCR_CREDENTIALS }}' 
+
+      - id: 'deploy'
+        uses: 'google-github-actions/deploy-cloudrun@v1'
+        with:
+          service: 'django-score-tracker-staging'
+          image: 'gcr.io/${{ secrets.DOCKER_REGISTRY }}/django-score-tracker:${{ github.sha }}'
+          secrets:
+            APPLICATION_SETTINGS=django_score_tracker_staging_app_settings:latest 
+  
+
