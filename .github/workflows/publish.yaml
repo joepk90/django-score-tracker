@@ -11,7 +11,17 @@ env:
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   COMMIT_SHA: ${{ github.sha }}
 jobs:
-  docker-image:
+
+  test:
+    runs-on: ubuntu-22.04
+    # environment: production
+    steps:
+      - uses: ./.github/workflows/test.yaml
+        # with:
+        #   username: ${{ inputs.username }}
+        #   token: ${{ secrets.envPAT }}
+
+  publish:
     runs-on: ubuntu-22.04
 
     steps:
@@ -35,3 +45,25 @@ jobs:
 
       - name: GCR Push
         run: make ci-gcr-push
+  
+  deploy-staging:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GCR_CREDENTIALS }}' # TODO update G_CLOUD_RUN_AUTH
+
+      - id: 'deploy'
+        uses: 'google-github-actions/deploy-cloudrun@v1'
+        with:
+          service: 'django-score-tracker-staging'
+          image: 'gcr.io/${{ secrets.DOCKER_REGISTRY }}/django-score-tracker:${{ github.sha }}'
+          secrets:
+            APPLICATION_SETTINGS=django_score_tracker_staging_app_settings:latest 
+    
