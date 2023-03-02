@@ -12,46 +12,46 @@ env:
   COMMIT_SHA: ${{ github.sha }}
 jobs:
 
-  test:
-    runs-on: ubuntu-22.04
-    # environment: production
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  # test:
+  #   runs-on: ubuntu-22.04
+  #   # environment: production
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: Test  
-        uses: ./.github/workflows/test
+  #     - name: Test  
+  #       uses: ./.github/workflows/test
         # with:
         #   username: ${{ inputs.username }}
         #   token: ${{ secrets.envPAT }}
 
-  publish:
-    runs-on: ubuntu-22.04
+  # publish:
+  #   runs-on: ubuntu-22.04
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: Docker Build
-        run: make ci-docker-build
+  #     - name: Docker Build
+  #       run: make ci-docker-build
 
-      - name: Docker Push
-        run: make ci-docker-push
+  #     - name: Docker Push
+  #       run: make ci-docker-push
 
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          credentials_json: '${{ secrets.GRC_CREDENTIALS }}' # TODO update G_CONTAINER_REGISTRY_AUTH
+  #     - id: 'auth'
+  #       name: 'Authenticate to Google Cloud'
+  #       uses: 'google-github-actions/auth@v1'
+  #       with:
+  #         credentials_json: '${{ secrets.GRC_CREDENTIALS }}' # TODO update G_CONTAINER_REGISTRY_AUTH
 
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v1'
+  #     - name: 'Set up Cloud SDK'
+  #       uses: 'google-github-actions/setup-gcloud@v1'
 
-      - name: GCR Push
-        run: make ci-gcr-push
+  #     - name: GCR Push
+  #       run: make ci-gcr-push
   
   deploy-staging:
-    needs: publish
+    # needs: publish
     runs-on: ubuntu-22.04
 
     steps:
@@ -68,7 +68,10 @@ jobs:
         uses: 'google-github-actions/deploy-cloudrun@v1'
         with:
           service: 'django-score-tracker-staging'
-          image: 'gcr.io/${{ secrets.DOCKER_REGISTRY }}/django-score-tracker:${{ github.sha }}'
+          # image: 'gcr.io/${{ secrets.DOCKER_REGISTRY }}/django-score-tracker:${{ github.sha }}'
+          image: 'gcr.io/${{ secrets.DOCKER_REGISTRY }}/django-score-tracker:e0c671a06b5afa5f7a86483b8d89219f67481b20'
+          region: "northamerica-northeast1"
+          project_id: ${{ secrets.DOCKER_REGISTRY }}
           secrets:
             APPLICATION_SETTINGS=django_score_tracker_staging_app_settings:latest 
     
