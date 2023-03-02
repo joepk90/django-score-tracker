@@ -11,18 +11,18 @@ RUN pipenv requirements > requirements.txt
 
 From python:3.7
 
-COPY --from=build requirements.txt .
-
 # install utils/dubug tools
 # RUN apt-get update
 # RUN apt-get install vim -y
 # RUN apt-get -y install coreutils
 
-RUN pip install -r requirements.txt
-
 COPY ./score_tracker /score_tracker
 
 WORKDIR /score_tracker
+
+COPY --from=build requirements.txt .
+
+RUN pip install -r requirements.txt
 
 ENV PORT 8080
 
