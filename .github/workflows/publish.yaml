@@ -16,7 +16,11 @@ jobs:
     runs-on: ubuntu-22.04
     # environment: production
     steps:
-      - uses: ./.github/workflows/test.yaml
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Test  
+        uses: ./.github/workflows/test
         # with:
         #   username: ${{ inputs.username }}
         #   token: ${{ secrets.envPAT }}
@@ -47,6 +51,7 @@ jobs:
         run: make ci-gcr-push
   
   deploy-staging:
+    needs: publish
     runs-on: ubuntu-22.04
 
     steps:
