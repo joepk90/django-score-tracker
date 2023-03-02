@@ -1,10 +1,15 @@
 name: Deploy Staging
 
 on:
-  workflow_run:
-    workflows: ["Publish"]
-    types:
-      - completed
+  push:
+    branches:
+      - setup-gh-ci-deploy
+    needs: 
+      workflows: ["Publish"]
+  # workflow_run:
+  #   workflows: ["Publish"]
+  #   types:
+  #     - completed
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
