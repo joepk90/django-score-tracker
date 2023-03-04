@@ -1,7 +1,9 @@
 name: Deploy
 
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
       - master
 
@@ -15,16 +17,12 @@ env:
 jobs:
   
   test:
-    runs-on: ubuntu-22.04
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Docker Test
-        run: make ci-docker-test
+    name: Test Workflow (Reusable)
+    uses: "joepk90/django-score-tracker/.github/workflows/0-reusable-test.yaml@master"
+    secrets: inherit
 
   publish:
+    name: Pubish
     needs: test
     runs-on: ubuntu-22.04
 
@@ -51,6 +49,7 @@ jobs:
         run: make ci-gcr-push
   
   deploy-staging:
+    name: Deployment (Staging)
     needs: publish
     runs-on: ubuntu-22.04
 
@@ -64,7 +63,8 @@ jobs:
         with:
           credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' # TODO update G_CLOUD_RUN_AUTH
 
-      - id: 'deploy'
+      - name: Deploy
+        id: deploy
         uses: 'google-github-actions/deploy-cloudrun@v1'
         with:
           service: 'django-score-tracker-staging'
@@ -73,3 +73,7 @@ jobs:
           project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
           secrets:
             APPLICATION_SETTINGS=${{ secrets.APPLICATION_SECRET_STAGING }}:latest
+      
+      - name: Show Output
+        run: echo ${{ steps.deploy.outputs.url }}
+
