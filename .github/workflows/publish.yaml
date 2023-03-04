@@ -25,12 +25,12 @@ jobs:
         #   username: ${{ inputs.username }}
         #   token: ${{ secrets.envPAT }}
 
-  # publish:
-  #   runs-on: ubuntu-22.04
+  publish:
+    runs-on: ubuntu-22.04
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Docker Build
         run: make ci-docker-build
