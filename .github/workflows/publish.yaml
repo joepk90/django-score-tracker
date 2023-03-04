@@ -59,7 +59,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Echo Project Name
-        run: echo ${{ secrets.GCR_CREDENTIALS }}
+        run: echo "Test"
 
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
