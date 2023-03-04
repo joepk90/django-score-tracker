@@ -58,10 +58,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Echo Project Name
-        env:
-            RUNNER_CONTEXT: ${{ toJson(secrets.DOCKER_REGISTRY) }}
-        run: echo "$RUNNER_CONTEXT"
+      # print env var - not working
+      # - name: Echo Project Name
+      #   env:
+      #       RUNNER_CONTEXT: ${{ toJson(secrets.DOCKER_REGISTRY) }}
+      #   run: echo "$RUNNER_CONTEXT"
 
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
