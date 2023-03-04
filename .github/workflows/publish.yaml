@@ -10,6 +10,7 @@ env:
   DOCKER_ID: ${{ secrets.DOCKER_ID }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+  APPLICATION_SECRET_STAGING: ${{ secrets.APPLICATION_SECRET_STAGING }}
   COMMIT_SHA: ${{ github.sha }}
 jobs:
   
@@ -71,4 +72,4 @@ jobs:
           region: "northamerica-northeast1"
           project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
           secrets:
-            APPLICATION_SETTINGS=django_score_tracker_staging_app_settings:latest
+            APPLICATION_SETTINGS=${{ secrets.APPLICATION_SECRET_STAGING }}:latest
