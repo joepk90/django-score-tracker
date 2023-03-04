@@ -32,26 +32,26 @@ jobs:
   #     - name: Checkout
   #       uses: actions/checkout@v3
 
-  #     - name: Docker Build
-  #       run: make ci-docker-build
+      - name: Docker Build
+        run: make ci-docker-build
 
   #     - name: Docker Push
   #       run: make ci-docker-push
 
-  #     - id: 'auth'
-  #       name: 'Authenticate to Google Cloud'
-  #       uses: 'google-github-actions/auth@v1'
-  #       with:
-  #         credentials_json: '${{ secrets.GRC_CREDENTIALS }}' # TODO update G_CONTAINER_REGISTRY_AUTH
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' # TODO update G_CONTAINER_REGISTRY_AUTH
 
-  #     - name: 'Set up Cloud SDK'
-  #       uses: 'google-github-actions/setup-gcloud@v1'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
 
-  #     - name: GCR Push
-  #       run: make ci-gcr-push
+      - name: GCR Push
+        run: make ci-gcr-push
   
   deploy-staging:
-    # needs: publish
+    needs: publish
     runs-on: ubuntu-22.04
 
     steps:
@@ -68,16 +68,16 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: '${{ secrets.GCR_CREDENTIALS }}' # TODO update G_CLOUD_RUN_AUTH
+          credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' # TODO update G_CLOUD_RUN_AUTH
 
       - id: 'deploy'
         uses: 'google-github-actions/deploy-cloudrun@v1'
         with:
           service: 'django-score-tracker'
-          # image: 'gcr.io/${{ secrets.DOCKER_REGISTRY }}/django-score-tracker:${{ github.sha }}'
-          image: 'gcr.io/django-score-tracker/django-score-tracker:e0c671a06b5afa5f7a86483b8d89219f67481b20'
+          image: 'gcr.io/${{ secrets.DOCKER_REGISTRY }}/django-score-tracker:${{ github.sha }}'
+          # image: 'gcr.io/django-score-tracker/django-score-tracker:e0c671a06b5afa5f7a86483b8d89219f67481b20'
           region: "northamerica-northeast1"
-          project_id: django-score-tracker
+          project_id: automated-deployment-test-01
           secrets:
             APPLICATION_SETTINGS=django_score_tracker_staging_app_settings:latest
     
