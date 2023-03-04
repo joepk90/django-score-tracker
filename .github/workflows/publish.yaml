@@ -77,7 +77,7 @@ jobs:
           # image: 'gcr.io/${{ secrets.DOCKER_REGISTRY }}/django-score-tracker:${{ github.sha }}'
           image: 'gcr.io/django-score-tracker/django-score-tracker:e0c671a06b5afa5f7a86483b8d89219f67481b20'
           region: "northamerica-northeast1"
-          project_id: ${{ secrets.DOCKER_REGISTRY }}
+          project_id: django-score-tracker
           secrets:
             APPLICATION_SETTINGS=django_score_tracker_staging_app_settings:latest
     
