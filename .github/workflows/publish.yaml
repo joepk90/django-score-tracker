@@ -3,7 +3,7 @@ name: Publish
 on:
   push:
     branches:
-      - master
+      - setup-gh-ci-deploy
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
