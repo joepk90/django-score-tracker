@@ -7,6 +7,9 @@ on:
     branches:
       - "**"
 
+env:
+  DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
+
 jobs:
   test:
     runs-on: ubuntu-22.04
