@@ -59,7 +59,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Echo Project Name
-        run: echo '${{ toJSON(DOCKER_REGISTRY) }}'
+        env:
+            RUNNER_CONTEXT: ${{ toJson(DOCKER_REGISTRY) }}
+        run: echo "$RUNNER_CONTEXT"
 
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
