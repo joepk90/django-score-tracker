@@ -71,7 +71,7 @@ jobs:
           credentials_json: '${{ secrets.GCR_CREDENTIALS }}' # TODO update G_CLOUD_RUN_AUTH
 
       - id: 'deploy'
-        uses: 'google-github-actions/deploy-cloudrun@v1'
+        uses: 'google-github-actions/deploy-cloudrun@v0'
         with:
           service: 'django-score-tracker'
           # image: 'gcr.io/${{ secrets.DOCKER_REGISTRY }}/django-score-tracker:${{ github.sha }}'
