@@ -74,7 +74,7 @@ jobs:
       - id: 'deploy'
         uses: 'google-github-actions/deploy-cloudrun@v1'
         with:
-          service: 'django-score-tracker'
+          service: 'django-score-tracker-staging'
           image: 'gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/django-score-tracker:${{ github.sha }}'
           region: "northamerica-northeast1"
           project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
