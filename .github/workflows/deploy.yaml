@@ -2,8 +2,10 @@ name: Deploy
 
 on:
   push:
+  pull_request:
     branches:
       - master
+      # - develop
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
