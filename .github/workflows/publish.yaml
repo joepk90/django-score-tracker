@@ -80,4 +80,3 @@ jobs:
           project_id: automated-deployment-test-01
           secrets:
             APPLICATION_SETTINGS=django_score_tracker_staging_app_settings:latest
-    
