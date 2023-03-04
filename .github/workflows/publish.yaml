@@ -9,6 +9,7 @@ env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
   DOCKER_ID: ${{ secrets.DOCKER_ID }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
   COMMIT_SHA: ${{ github.sha }}
 jobs:
 
@@ -74,9 +75,8 @@ jobs:
         uses: 'google-github-actions/deploy-cloudrun@v1'
         with:
           service: 'django-score-tracker'
-          image: 'gcr.io/automated-deployment-test-01/django-score-tracker:${{ github.sha }}'
-          # image: 'gcr.io/django-score-tracker/django-score-tracker:e0c671a06b5afa5f7a86483b8d89219f67481b20'
+          image: 'gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/django-score-tracker:${{ github.sha }}'
           region: "northamerica-northeast1"
-          project_id: automated-deployment-test-01
+          project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
           secrets:
             APPLICATION_SETTINGS=django_score_tracker_staging_app_settings:latest
