@@ -79,5 +79,5 @@ jobs:
           region: "northamerica-northeast1"
           project_id: ${{ secrets.DOCKER_REGISTRY }}
           secrets:
-            APPLICATION_SETTINGS=django_score_tracker_staging_app_settings:latest 
+            APPLICATION_SETTINGS=django_score_tracker_staging_app_settings:latest
     
