@@ -21,6 +21,10 @@ env = environ.Env()
 # read dev .env file (file must be included in the same directory as this settings.py file)
 env.read_env()
 
+# read env file from container secret (PROD/STAG): APPLICATION_SETTINGS
+if (os.environ.get("APPLICATION_SETTINGS") != None):
+    env.read_env(io.StringIO(os.environ.get("APPLICATION_SETTINGS")))
+
 ENVIRONMENT = os.environ.get("ENVIRONMENT", 'DEV')
 
 # SECURITY WARNING: keep the secret key used in production secret!
