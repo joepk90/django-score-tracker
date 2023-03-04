@@ -2,8 +2,9 @@ name: Test
 # description:
 # https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
 
+on: {}
+
 jobs:
-  
   test:
     runs-on: ubuntu-22.04
 
