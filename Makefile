@@ -3,7 +3,7 @@ PROJECT_DIR=./score_tracker
 LATEST_TAG=latest
 DOCKER_CONTAINER=django-score-tracker
 DOCKER_REPOSITORY=$(DOCKER_REGISTRY)/$(DOCKER_CONTAINER)
-GOOGLE_REPOSITORY=gcr.io/$(DOCKER_CONTAINER)/$(DOCKER_CONTAINER)
+GOOGLE_REPOSITORY=gcr.io/automated-deployment-test-01/$(DOCKER_CONTAINER)
 
 # pipenv, version 2021.5.29
 generate-requirements:
