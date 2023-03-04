@@ -2,7 +2,10 @@ name: Test
 # description:
 # https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
 
-on: {}
+on:
+  push:
+    branches:
+      - "**"
 
 jobs:
   test:
