@@ -60,7 +60,7 @@ jobs:
 
       - name: Echo Project Name
         env:
-            RUNNER_CONTEXT: ${{ toJson(DOCKER_REGISTRY) }}
+            RUNNER_CONTEXT: ${{ toJson(secrets.DOCKER_REGISTRY) }}
         run: echo "$RUNNER_CONTEXT"
 
       - id: 'auth'
