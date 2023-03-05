@@ -36,10 +36,16 @@ jobs:
       - name: Show repo owner
         run: echo "${{ github.event.repository.owner }}"
 
+      - name: Show repo actor
+        run: echo "${{ github.event.repository.actor }}"
+
+      - name: Show github context
+        run: echo "${{ toJson(github) }}"
+
   test:
     # uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows 
-    # uses: "joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows" 
-    uses: ${{env.workflow}} 
+    uses: "joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows" 
+    # uses: ${{env.workflow}} 
     # uses: "joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@${{secrets.COMMIT_SHA}}"
     secrets: inherit
 
