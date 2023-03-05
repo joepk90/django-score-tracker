@@ -3,7 +3,10 @@ name: Test
 # https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
 
 on:
-  push:
+  # push:
+  #   branches:
+  #     - "**"
+  pull_request:
     branches:
       - "**"
 
