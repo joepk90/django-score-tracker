@@ -23,11 +23,9 @@ jobs:
       - name: Show workspace
         run: echo "${{ github.workspace }}"
 
-    steps:
       - name: Show repo name
         run: echo "${{ github.event.repository.name }}"
 
-    steps:
       - name: Show repo owner
         run: echo "${{ github.event.repository.owner }}"
 
