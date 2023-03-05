@@ -44,6 +44,12 @@ jobs:
       - name: Show github context
         run: echo "${{ toJson(github) }}"
 
+      - name: Prepare ENV
+        run: echo "REPO_NAME=${{ github.repository }}" >> $GITHUB_ENV
+
+      - name: Prepare worflow path
+        run: echo "${{ github.repository }}/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows"V
+
   test:
     # uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows 
     # uses: "joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows" 
