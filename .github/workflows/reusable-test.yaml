@@ -1,11 +1,18 @@
-name: Reusable Test
+name: Test
 
 on:
-  push:
-    branches:
-      - "**"
+  workflow_call:
+
+env:
+  DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
 
 jobs:
   test:
-    uses: "joepk90/django-score-tracker/.github/workflows/reusable/test.yaml@setup-reusable-ci-workflows"
-    secrets: inherit
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Docker Test
+        run: make ci-docker-test
