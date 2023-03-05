@@ -14,16 +14,12 @@ env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
 
 jobs:
-  # test:
-  #   runs-on: ubuntu-22.04
-
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-
-  #     - name: Docker Test
-  #       run: make ci-docker-test
-
   test:
-    # uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@main 
-    uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@main 
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Docker Test
+        run: make ci-docker-test
