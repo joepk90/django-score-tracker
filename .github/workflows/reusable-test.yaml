@@ -20,11 +20,20 @@ jobs:
   print:
     runs-on: ubuntu-22.04
     steps:
-      - name: Show output
+      - name: Show workspace
         run: echo "${{ github.workspace }}"
 
+    steps:
+      - name: Show repo name
+        run: echo "${{ github.event.repository.name }}"
+
+    steps:
+      - name: Show repo owner
+        run: echo "${{ github.event.repository.owner }}"
+
   test:
-    uses: ${{ github.workspace }}/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows 
+    # uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows 
+    uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@${{ github.sha }} 
     secrets: inherit
 
   # test:
