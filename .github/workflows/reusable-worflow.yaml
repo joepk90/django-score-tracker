@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 env:
-  DOCKER_REGISTRY: TEST
+  DOCKER_REGISTRY: django-score-tracker-test
 
 jobs:
   test:
