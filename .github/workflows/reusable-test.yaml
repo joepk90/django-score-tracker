@@ -18,8 +18,8 @@ jobs:
   #       run: make ci-docker-test
 
 
-  show-workspace:
-    run: echo "${{ github.workspace }}"
+  # show-workspace:
+  #   run: echo "${{ github.workspace }}"
 
   print:
     runs-on: ubuntu-22.04
