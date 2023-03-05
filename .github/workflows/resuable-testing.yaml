@@ -1,0 +1,59 @@
+# test.yaml
+name: Test
+
+on:
+  push:
+    branches:
+      - "**"
+
+env:
+  workflow: "joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows"
+
+jobs:
+  # docker-image:
+  #   runs-on: ubuntu-22.04
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - name: Docker Test
+  #       run: make ci-docker-test
+
+
+  # show-workspace:
+  #   run: echo "${{ github.workspace }}"
+
+
+
+  print:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Show workspace
+        run: echo "${{ github.workspace }}"
+
+      - name: Show repo name
+        run: echo "${{ github.event.repository.name }}"
+
+      - name: Show repo owner
+        run: echo "${{ github.event.repository.owner }}"
+
+      - name: Show repo actor
+        run: echo "${{ github.event.repository.actor }}"
+
+      - name: Show github context
+        run: echo "${{ toJson(github) }}"
+
+      - name: Prepare ENV
+        run: echo "REPO_NAME=${{ github.repository }}" >> $GITHUB_ENV
+
+      - name: Prepare worflow path
+        run: echo "${{ github.repository }}/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows"V
+
+  test:
+    # uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows 
+    uses: "joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows" 
+    # uses: "${{ github.repository }}/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows" 
+    # uses: ${{env.workflow}} 
+    # uses: "joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@${{secrets.COMMIT_SHA}}"
+    secrets: inherit
