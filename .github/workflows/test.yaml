@@ -1,6 +1,4 @@
 name: Test
-# description:
-# https://docs.github.com/en/actions/creating-actions/creating-a-composite-action
 
 on:
   # push:
@@ -16,11 +14,5 @@ env:
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Docker Test
-        run: make ci-docker-test
+    uses: "joepk90/django-score-tracker/.github/workflows/reusable-test.yaml@master"
+    secrets: inherit
