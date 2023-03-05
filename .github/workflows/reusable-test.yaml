@@ -35,7 +35,7 @@ jobs:
 
   test:
     # uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows 
-    uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows 
+    uses: joepk90/${{ github.event.repository.owner }}/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows 
     # uses: "joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@${{secrets.COMMIT_SHA}}"
     secrets: inherit
 
