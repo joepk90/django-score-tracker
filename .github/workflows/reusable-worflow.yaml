@@ -4,7 +4,7 @@ on:
   workflow_call:
 
 env:
-  DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
+  DOCKER_REGISTRY: TEST
 
 jobs:
   test:
