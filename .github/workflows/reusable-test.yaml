@@ -18,8 +18,8 @@ jobs:
   #       run: make ci-docker-test
 
   test:
-    # uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@main 
-    uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml 
+    uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@master 
+    # uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml 
 
   # test:
   #   runs-on: ubuntu-22.04
