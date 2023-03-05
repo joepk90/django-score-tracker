@@ -68,7 +68,8 @@ jobs:
         with:
           credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' # TODO update G_CLOUD_RUN_AUTH
 
-      - id: 'deploy'
+      - name: Deploy
+        id: deploy
         uses: 'google-github-actions/deploy-cloudrun@v1'
         with:
           service: 'django-score-tracker-staging'
@@ -77,3 +78,7 @@ jobs:
           project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
           secrets:
             APPLICATION_SETTINGS=${{ secrets.APPLICATION_SECRET_STAGING }}:latest
+      
+      - name: Show Output
+        run: echo ${{ steps.deploy.outputs.url }}
+
