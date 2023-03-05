@@ -9,6 +9,7 @@ on:
   pull_request:
     branches:
       - "**"
+      - '!master'
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
