@@ -3,8 +3,9 @@ name: Test
 on:
   workflow_call:
 
-env:
-  DOCKER_REGISTRY: django-score-tracker-test
+secrets: inherit
+# env:
+#   DOCKER_REGISTRY: django-score-tracker-test
 
 jobs:
   test:
