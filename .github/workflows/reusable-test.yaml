@@ -24,7 +24,7 @@ jobs:
         run: echo "${{ github.workspace }}"
 
   test:
-    uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows 
+    uses: ${{ github.workspace }}/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows 
     secrets: inherit
 
   # test:
