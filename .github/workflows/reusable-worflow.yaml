@@ -3,8 +3,8 @@ name: Test
 on:
   workflow_call:
 
-# env:
-#   DOCKER_REGISTRY: django-score-tracker-test
+env:
+  DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
 
 jobs:
   test:
