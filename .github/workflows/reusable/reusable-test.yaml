@@ -1,0 +1,11 @@
+name: Reusable Test
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  test:
+    uses: "joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows"
+    secrets: inherit
