@@ -50,6 +50,12 @@ jobs:
       - name: Prepare worflow path
         run: echo "${{ github.repository }}/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows"V
 
+
+
+
+
+  # TODO make joepk90/django-score-tracker, and branch name dynamic
+
   test:
     # uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows 
     uses: "joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows" 
