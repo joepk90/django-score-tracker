@@ -17,9 +17,13 @@ jobs:
   #     - name: Docker Test
   #       run: make ci-docker-test
 
+  print:
+    steps:
+      - name: Show output
+        run: echo "${{ github.workspace }}"
+
   test:
     uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows 
-    # uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml 
     secrets: inherit
 
   # test:
