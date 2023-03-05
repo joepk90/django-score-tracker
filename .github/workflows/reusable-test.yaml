@@ -6,6 +6,9 @@ on:
     branches:
       - "**"
 
+env:
+  workflow: "joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows"
+
 jobs:
   # docker-image:
   #   runs-on: ubuntu-22.04
@@ -35,7 +38,8 @@ jobs:
 
   test:
     # uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows 
-    uses: "joepk90/${{ github.event.repository.name }}/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows" 
+    # uses: "joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@setup-reusable-ci-workflows" 
+    uses: ${{env.workflow}} 
     # uses: "joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@${{secrets.COMMIT_SHA}}"
     secrets: inherit
 
