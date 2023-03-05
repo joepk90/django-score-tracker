@@ -2,8 +2,8 @@ name: Test
 
 on:
   workflow_call:
+    secrets: inherit
 
-secrets: inherit
 # env:
 #   DOCKER_REGISTRY: django-score-tracker-test
 
