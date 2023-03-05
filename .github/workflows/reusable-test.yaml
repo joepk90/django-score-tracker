@@ -19,7 +19,7 @@ jobs:
 
   test:
     # uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@main 
-    uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml@main 
+    uses: joepk90/django-score-tracker/.github/workflows/reusable-worflow.yaml 
 
   # test:
   #   runs-on: ubuntu-22.04
