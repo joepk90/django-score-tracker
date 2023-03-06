@@ -1,4 +1,4 @@
-name: Test Workflow
+name: Taaaaa
 
 on:
   # push:
@@ -13,7 +13,7 @@ env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
 
 jobs:
-  test-job:
-    name: Test Workflow
-    uses: "joepk90/django-score-tracker/.github/workflows/reusable-test.yaml@master"
+  taaaaa:
+    name: Taaaaa
+    uses: "joepk90/django-score-tracker/.github/workflows/reusable-taaaaa.yaml@master"
     secrets: inherit
