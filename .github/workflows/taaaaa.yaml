@@ -15,5 +15,5 @@ env:
 jobs:
   taaaaa:
     name: Taaaaa
-    uses: "joepk90/django-score-tracker/.github/workflows/reusable-taaaaa.yaml@master"
+    uses: "joepk90/django-score-tracker/.github/workflows/reusable-taaaaa.yaml@test-pr"
     secrets: inherit
