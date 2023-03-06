@@ -1,9 +1,9 @@
 name: Test
 
 on:
-  # push:
-  #   branches:
-  #     - "**"
+  push:
+    branches:
+      - "**"
   pull_request:
     branches:
       - "**"
@@ -17,3 +17,4 @@ jobs:
     name: Test Workflow (Reusable)
     uses: "joepk90/django-score-tracker/.github/workflows/0-reusable-test.yaml@master"
     secrets: inherit
+    
