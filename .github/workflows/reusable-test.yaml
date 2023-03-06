@@ -1,5 +1,3 @@
-name: Test Job
-
 on:
   workflow_call:
     branches:
@@ -9,7 +7,7 @@ env:
 
 jobs:
   test-job:
-    # name: Test Job
+    name: Test Job
     runs-on: ubuntu-22.04
 
     steps:
