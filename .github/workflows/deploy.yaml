@@ -18,13 +18,11 @@ jobs:
   
   test:
     name: Test Workflow (Reusable)
-    id: test
     uses: "joepk90/django-score-tracker/.github/workflows/0-reusable-test.yaml@master"
     secrets: inherit
 
   publish:
     name: Pubish
-    id: publish
     needs: test
     runs-on: ubuntu-22.04
 
@@ -52,7 +50,6 @@ jobs:
   
   deploy-staging:
     name: Deployment (Staging)
-    id: deploy-staging
     needs: publish
     runs-on: ubuntu-22.04
 
