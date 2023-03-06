@@ -3,14 +3,15 @@ name: Test
 on:
   push:
     branches:
-    - 'non-existent-branch'
+      - "**"  
+      - '!master'
   # pull_request: 
     # types:
     #   - '!closed' # do no run on closed pr to master
     # branches:
       # - "**"  
       # - '!master'
-      
+
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
