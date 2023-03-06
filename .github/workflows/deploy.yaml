@@ -1,9 +1,9 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - master # while staging = prod 
+  # push:
+  #   branches:
+  #     - master # while staging = prod 
   pull_request:
     types:
       - closed
