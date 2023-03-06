@@ -2,8 +2,8 @@ name: Test (Reusable)
 
 on:
   workflow_call:
-    branches:
-      - '!**'
+    # branches:
+    #   - '!**'
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
 
