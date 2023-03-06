@@ -9,9 +9,7 @@ on:
       - closed
     branches:
       - master
-      # - develop
       
-
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
   DOCKER_ID: ${{ secrets.DOCKER_ID }}
