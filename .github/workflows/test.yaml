@@ -2,7 +2,7 @@ name: Test
 
 on:
   push:
-    # branches:
+    branches:
     - 'non-existent-branch'
   # pull_request: 
     # types:
