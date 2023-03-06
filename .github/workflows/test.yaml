@@ -10,6 +10,7 @@ on:
     # branches:
       # - "**"  
       # - '!master'
+      
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
