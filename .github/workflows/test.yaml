@@ -8,8 +8,9 @@ on:
     # types:
     #   - '!closed' # do no run on closed pr to master
     branches:
-      - "**"  
-      - '!master'
+      # - "**"  
+      # - '!master'
+      - 'non-existent-branch'
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
