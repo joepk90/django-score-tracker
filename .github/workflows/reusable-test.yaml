@@ -9,8 +9,9 @@ env:
 
 jobs:
   test:
-    runs-on: ubuntu-22.04
     name: Test Job
+    runs-on: ubuntu-22.04
+    
 
     steps:
       - name: Checkout
