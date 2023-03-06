@@ -1,4 +1,4 @@
-name: Test Job
+name: taaaaa
 
 on:
   workflow_call:
@@ -8,7 +8,7 @@ env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
 
 jobs:
-  test-job:
+  taaaaa:
     # name: Test Job
     runs-on: ubuntu-22.04
 
