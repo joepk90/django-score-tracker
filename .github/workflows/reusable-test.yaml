@@ -6,8 +6,7 @@ env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
 
 jobs:
-  test-job:
-    name: Test Job
+  test:
     runs-on: ubuntu-22.04
 
     steps:
