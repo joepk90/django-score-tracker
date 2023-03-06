@@ -13,3 +13,5 @@ jobs:
     name: Test Workflow (Reusable)
     uses: "joepk90/django-score-tracker/.github/workflows/0-reusable-test.yaml@master"
     secrets: inherit
+
+# TODO add build steps
