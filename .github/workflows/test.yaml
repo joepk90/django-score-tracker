@@ -4,10 +4,12 @@ on:
   push:
     # branches:
     #   - "**"
-  pull_request:
+  pull_request: 
+    types:
+      - '!closed' # do no run on closed pr to master
     branches:
       - "**"
-      # - '!master'
+      - '!master'
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
