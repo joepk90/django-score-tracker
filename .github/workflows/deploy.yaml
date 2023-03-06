@@ -1,17 +1,15 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - master # while staging = prod 
+  # push:
+  #   branches:
+  #     - master # while staging = prod 
   pull_request:
     types:
       - closed
     branches:
       - master
-      # - develop
       
-
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
   DOCKER_ID: ${{ secrets.DOCKER_ID }}
