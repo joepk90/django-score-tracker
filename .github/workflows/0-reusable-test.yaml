@@ -1,3 +1,5 @@
+name: Test (Reusable)
+
 on:
   workflow_call:
     branches:
