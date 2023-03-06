@@ -1,8 +1,7 @@
-name: Test
-
 on:
   workflow_call:
-
+    branches:
+      - '!**'
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
 

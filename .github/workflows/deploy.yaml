@@ -5,9 +5,12 @@ on:
     branches:
       - master # while staging = prod 
   pull_request:
+    types:
+      - closed
     branches:
       - master
       # - develop
+      
 
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
