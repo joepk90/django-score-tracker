@@ -1,15 +1,15 @@
 name: Test
 
 on:
-  push:
-    pull_request:
-      - "**"  
-      - '!master'
-  # pull_request: 
+  # push:
+    # branches:
+    #   - "**"  
+    #   - '!master'
+  pull_request: 
     # types:
     #   - '!closed' # do no run on closed pr to master
-    # branches:
-      # - "**"  
+    branches:
+      - "**"  
       # - '!master'
 
 
@@ -18,6 +18,7 @@ env:
 
 jobs:
   test:
+    if: github.event.pull_request.merged == false
     name: Test Workflow (Reusable)
     uses: "joepk90/django-score-tracker/.github/workflows/0-reusable-test.yaml@master"
     secrets: inherit
