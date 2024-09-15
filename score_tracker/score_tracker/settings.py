@@ -15,11 +15,22 @@ import io
 import environ
 from datetime import timedelta
 
+from pathlib import Path
+
+
+def get_project_root() -> Path:
+    return Path(__file__).parent.parent.parent
+
+
+def get_project_env_file() -> str:
+    return str(get_project_root()) + "/.env"
+
+
 # initialise environment variables
 env = environ.Env()
 
 # read dev .env file (file must be included in the same directory as this settings.py file)
-env.read_env()
+env.read_env(get_project_env_file())  # TODO move .env file to project root
 
 # read env file from container secret (PROD/STAG): APPLICATION_SETTINGS
 if (os.environ.get("APPLICATION_SETTINGS") != None):
