@@ -3,9 +3,16 @@ PROJECT_DIR=./score_tracker
 LATEST_TAG=latest
 DOCKER_CONTAINER=django-score-tracker
 DOCKER_REPOSITORY=$(DOCKER_REGISTRY)/$(DOCKER_CONTAINER)
-GOOGLE_REPOSITORY=gcr.io/$(GOOGLE_PROJECT_ID)/$(DOCKER_CONTAINER)
- # TODO use artifact registry URL
-# GOOGLE_REPOSITORY=us-central1-docker.pkg.dev/${GOOGLE_PROJECT_ID}/$(DOCKER_CONTAINER)/${DOCKER_CONTAINER}
+
+# google artifact repository (add location to secrets?)
+GOOGLE_AR_REPO_LOCATION=us-central1
+GOOGLE_AR_REPO_NAME=containers
+GOOGLE_AR_REPO_PKG=docker.pkg.dev
+GOOGLE_AR_REPO_URL=${GOOGLE_AR_REPO_LOCATION}-${GOOGLE_AR_REPO_PKG}
+GOOGLE_REPOSITORY=${GOOGLE_AR_REPO_URL}/${GOOGLE_PROJECT_ID}/${GOOGLE_AR_REPO_NAME}/$(DOCKER_CONTAINER)
+
+# google container registry (depricated)
+# GOOGLE_REPOSITORY=gcr.io/$(GOOGLE_PROJECT_ID)/$(DOCKER_CONTAINER)
 
 # pipenv, version 2021.5.29
 generate-requirements:
@@ -82,10 +89,20 @@ ci-docker-push: ci-docker-auth
 	@echo "Deployed tagged image: $(DOCKER_REPOSITORY):$(COMMIT_SHA)"
 	@echo "Deployed tagged image: $(DOCKER_REPOSITORY):$(LATEST_TAG)"
 
-# gcloud auth configure-docker us-central1-docker.pkg.dev
 ci-gcloud-configure-docker:
-	gcloud auth configure-docker -q
+	gcloud auth configure-docker -q ${GOOGLE_AR_REPO_URL}
 	@echo "configured gcloud for docker"
+
+# alternatively - this could could be setup in terraform? The concern is if it gets deleted on destory/change
+ci-check-create-repository:
+	@echo "Checking if repository exists..."
+	@REPO_EXISTS=$(shell gcloud artifacts repositories describe $(GOOGLE_AR_REPO_NAME) --location=$(GOOGLE_AR_REPO_LOCATION) --format="value(name)" || echo "not_found") ; \
+	if [ "$$REPO_EXISTS" = "not_found" ]; then \
+		echo "Repository $(GOOGLE_AR_REPO_NAME) does not exist. Creating it..."; \
+		gcloud artifacts repositories create $(GOOGLE_AR_REPO_NAME) --repository-format=docker --location=$(GOOGLE_AR_REPO_LOCATION) --description="Docker repository for ${GOOGLE_AR_REPO_NAME} CI/CD images"; \
+	else \
+		echo "Repository $(GOOGLE_AR_REPO_NAME) already exists."; \
+	fi
 
 # push to google container registry
 ci-gcr-push: ci-gcloud-configure-docker ci-gcr-build
