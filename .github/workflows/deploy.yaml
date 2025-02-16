@@ -54,6 +54,9 @@ jobs:
     name: Deployment (Staging)
     needs: publish
     runs-on: ubuntu-22.04
+    permissions:
+      id-token: write  # Required for OIDC authentication
+      contents: read    # Required to read the repo content
 
     steps:
       - name: Checkout
