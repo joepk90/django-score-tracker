@@ -4,6 +4,8 @@ LATEST_TAG=latest
 DOCKER_CONTAINER=django-score-tracker
 DOCKER_REPOSITORY=$(DOCKER_REGISTRY)/$(DOCKER_CONTAINER)
 GOOGLE_REPOSITORY=gcr.io/$(GOOGLE_PROJECT_ID)/$(DOCKER_CONTAINER)
+ # TODO use artifact registry URL
+# GOOGLE_REPOSITORY=us-central1-docker.pkg.dev/${GOOGLE_PROJECT_ID}/$(DOCKER_CONTAINER)/${DOCKER_CONTAINER}
 
 # pipenv, version 2021.5.29
 generate-requirements:
@@ -67,9 +69,10 @@ ci-docker-build:
 	@echo "Created new tagged image: $(DOCKER_REPOSITORY):$(COMMIT_SHA)"
 	@echo "Created new tagged image: $(DOCKER_REPOSITORY):$(LATEST_TAG)"
 
+
 ci-gcr-build:
 	docker build -t $(GOOGLE_REPOSITORY):$(COMMIT_SHA) ./
-	docker build -t $(GOOGLE_REPOSITORY):$(LATEST_TAG) ./
+	docker build -t ${GOOGLE_REPOSITORY}:$(LATEST_TAG) ./
 	@echo "Created new tagged image: $(GOOGLE_REPOSITORY):$(COMMIT_SHA)"
 	@echo "Created new tagged image: $(GOOGLE_REPOSITORY):$(LATEST_TAG)"
 
@@ -79,15 +82,14 @@ ci-docker-push: ci-docker-auth
 	@echo "Deployed tagged image: $(DOCKER_REPOSITORY):$(COMMIT_SHA)"
 	@echo "Deployed tagged image: $(DOCKER_REPOSITORY):$(LATEST_TAG)"
 
+# gcloud auth configure-docker us-central1-docker.pkg.dev
 ci-gcloud-configure-docker:
 	gcloud auth configure-docker -q
 	@echo "configured gcloud for docker"
 
 # push to google container registry
 ci-gcr-push: ci-gcloud-configure-docker ci-gcr-build
-	docker push ${GOOGLE_REPOSITORY}:$(COMMIT_SHA)
 	docker push ${GOOGLE_REPOSITORY}:$(LATEST_TAG)
-	@echo "Deployed tagged image: $(GOOGLE_REPOSITORY):$(COMMIT_SHA)"
 	@echo "Deployed tagged image: $(GOOGLE_REPOSITORY):$(LATEST_TAG)"
 
 docker-compose-build:
