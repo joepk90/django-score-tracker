@@ -13,6 +13,7 @@ env:
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
   APPLICATION_SECRET_STAGING: ${{ secrets.APPLICATION_SECRET_STAGING }}
+  GOOGLE_SERVICE_ACCOUNT_EMAIL_USER_NAME: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL_USER_NAME }}
   COMMIT_SHA: ${{ github.sha }}
 jobs:
   
@@ -40,7 +41,8 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' # TODO update G_CONTAINER_REGISTRY_AUTH
+          workload_identity_provider: "projects/YOUR_PROJECT_NUMBER/locations/global/workloadIdentityPools/my-wif-pool/providers/github-provider"
+          service_account: "${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL_USER_NAME }}@YOUR_PROJECT_ID.iam.gserviceaccount.com"
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
@@ -61,18 +63,17 @@ jobs:
         id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' # TODO update G_CLOUD_RUN_AUTH
+          workload_identity_provider: "projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/my-wif-pool/providers/github-provider"
+          service_account: "${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL_USER_NAME }}@${{ secrets.GOOGLE_PROJECT_ID }}.iam.gserviceaccount.com"
 
       - name: Deploy
         id: deploy
         uses: 'google-github-actions/deploy-cloudrun@v1'
         with:
           service: 'django-score-tracker-staging'
-          image: 'gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/django-score-tracker:${{ github.sha }}'
-          region: "northamerica-northeast1"
-          project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
-          secrets:
-            APPLICATION_SETTINGS=${{ secrets.APPLICATION_SECRET_STAGING }}:latest
+          image: 'gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/django-score-tracker:latest'
+          region: "us-central1"
+          # project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
       
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
