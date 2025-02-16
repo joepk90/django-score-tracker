@@ -7,6 +7,10 @@ on:
     branches:
       - master
 
+permissions:
+      id-token: write  # Required for OIDC authentication (workload identity provider)
+      contents: read    # Required to read the repo content
+
 env:
   DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
   DOCKER_ID: ${{ secrets.DOCKER_ID }}
@@ -41,8 +45,8 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: "projects/YOUR_PROJECT_NUMBER/locations/global/workloadIdentityPools/my-wif-pool/providers/github-provider"
-          service_account: "${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL_USER_NAME }}@YOUR_PROJECT_ID.iam.gserviceaccount.com"
+          workload_identity_provider: "projects/${{ secrets.GOOGLE_PROJECT_ID }}/locations/global/workloadIdentityPools/my-wif-pool/providers/github-provider"
+          service_account: "${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL_USER_NAME }}@${{ secrets.GOOGLE_PROJECT_ID }}.iam.gserviceaccount.com"
 
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
@@ -54,9 +58,6 @@ jobs:
     name: Deployment (Staging)
     needs: publish
     runs-on: ubuntu-22.04
-    permissions:
-      id-token: write  # Required for OIDC authentication
-      contents: read    # Required to read the repo content
 
     steps:
       - name: Checkout
