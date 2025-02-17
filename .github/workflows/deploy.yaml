@@ -32,7 +32,7 @@ env:
   SERVICE_ACCOUNT_EMAIL: "${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL_USER_NAME }}@${{ secrets.GOOGLE_PROJECT_ID }}.iam.gserviceaccount.com"
  
 jobs:
-  
+
   test:
     name: Test Workflow (Reusable)
     uses: "joepk90/django-score-tracker/.github/workflows/0-reusable-test.yaml@master"
@@ -61,9 +61,12 @@ jobs:
           service_account: "${{ env.SERVICE_ACCOUNT_EMAIL }}"
           token_format: 'access_token'
 
+      - name: Check/Create Artifact Registry Repository
+        run: make ci-check-create-repository
+
       - name: GCR Push
         run: make ci-gcr-push
-  
+
   deploy-staging:
     name: Deployment (Staging)
     needs: publish
@@ -86,9 +89,10 @@ jobs:
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
           service: 'django-score-tracker-staging'
-           # TODO use artifact registry URL
-          # image: 'us-central1-docker.pkg.dev${{ secrets.GOOGLE_PROJECT_ID }}/django-score-tracker:latest'
-          image: 'gcr.io/${{ env.GOOGLE_PROJECT_ID }}/django-score-tracker:latest'
+          # TODO remove duplicate deplaration of of google repo url (see makefile)
+          image: 'us-central1-docker.pkg.dev/${{ secrets.GOOGLE_PROJECT_ID }}/containers/django-score-tracker:latest'
+          # container registry URL (depricated)
+          # image: 'gcr.io/${{ env.GOOGLE_PROJECT_ID }}/django-score-tracker:latest'
           region: "us-central1"
           project_id: ${{ env.GOOGLE_PROJECT_ID }}
       
